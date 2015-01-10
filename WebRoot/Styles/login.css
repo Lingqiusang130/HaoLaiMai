@@ -80,20 +80,27 @@
     margin-left: -35px;
 }
 
-.code {
+#verifyCode {
     width: 55px;
 }
 
 .btn {
     width: 95px;
 }
-
 .imgcode {
-    margin-top: -8px;
+    margin-top: -2px;
     margin-left: 10px;
     margin-right: 8px;
+    margin-bottom: -1px;
+    width: 60px;height: 30px;
 }
-
+.errorClass{
+	color:red;
+	font-weight: 900;
+}
+#submit{
+	width:150px;
+}
 input[type="text"] {
     font-family: vani;
 }

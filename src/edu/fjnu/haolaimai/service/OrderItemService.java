@@ -7,6 +7,6 @@ package edu.fjnu.haolaimai.service;
  * @author lingqiusang
  *
  */
-public class OrderItemService {
+public interface OrderItemService {
 
 }
