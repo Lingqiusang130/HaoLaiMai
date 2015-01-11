@@ -27,55 +27,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <!--头部结束-->
         <!--左边菜单开始-->
         <div class="left_c left">
-            <h1>系统操作菜单</h1>
+            <h1>好来买系统操作菜单</h1>
             <div class="acc">
                 <div>
                     <a class="one">商品管理</a>
                     <ul class="kid">
-                        <li><b class="tip"></b><a target="Conframe" href="Template/find-form.html">表单样式</a></li>
-                        <li><b class="tip"></b><a target="Conframe" href="Template/find-alert.html">弹出窗口</a></li>
-                        <li><b class="tip"></b><a target="Conframe" href="Template/find-order.html">查询排序</a></li>
-                        <li><b class="tip"></b><a target="Conframe" href="Template/find-1.html">查询结果一</a></li>
-                        <li><b class="tip"></b><a target="Conframe" href="Template/find-2.html">查询结果二</a></li>
+                        <li><b class="tip"></b><a target="Conframe" href="<c:url value='/jsps/admin/goods/list_goods.jsp'/>">所有商品</a></li>
+                        <li><b class="tip"></b><a target="Conframe" href="<c:url value='/jsps/admin/goods/input_good.jsp'/>">添加新商品</a></li>
                     </ul>
                 </div>
                 <div>
                     <a class="one">类别管理</a>
                     <ul class="kid">
-                        <li><b class="tip"></b><a target="Conframe" href="Template/Maintain-add.html">增加</a></li>
-                        <li><b class="tip"></b><a target="Conframe" href="Template/Maintain-edit.html">修改</a></li>
-                        <li><b class="tip"></b><a target="Conframe" href="Template/Maintain-del.html">删除</a></li>
+						<li><b class="tip"></b><a target="Conframe" href="<c:url value='/jsps/admin/categorys/list_categorys.jsp'/>">所有类别</a></li>
+                        <li><b class="tip"></b><a target="Conframe" href="<c:url value='/jsps/admin/categorys/input_category.jsp'/>">添加新类别</a></li>
                     </ul>
                 </div>
                 <div>
                     <a class="one">订单管理</a>
                     <ul class="kid">
-                        <li><b class="tip"></b><a target="Conframe" href="Template/form-Master-slave.html">主从表单</a></li>
-                        <li><b class="tip"></b><a target="Conframe" href="Template/form-collapse.html">折叠表单</a></li>
-                        <li><b class="tip"></b><a target="Conframe" href="Template/form-tabs.html">标签式表单</a></li>
-                        <li><b class="tip"></b><a target="Conframe" href="Template/form-tree.html">树+表单</a></li>
-                        <li><b class="tip"></b><a target="Conframe" href="Template/form-guide.html">向导</a></li>
-                        <li><b class="tip"></b><a target="Conframe" href="Template/form-tabs-list.html">标签页+列表</a></li>
+                        <li><b class="tip"></b><a target="Conframe" href="<c:url value='/jsps/admin/orders/list_all_orders.jsp'/>">所有订单</a></li>
+                        <li><b class="tip"></b><a target="Conframe" href="<c:url value='/jsps/admin/orders/list_back_orders.jsp'/>">退货申请处理</a></li>
+                        <li><b class="tip"></b><a target="Conframe" href="Template/form-tabs.html">订单统计</a></li>
                     </ul>
                 </div>
                 <div>
                     <a class="one">用户管理</a>
                     <ul class="kid">
-                        <li><b class="tip"></b><a target="Conframe" href="Template/Alert.html">权限提示</a></li>
-                        <li><b class="tip"></b><a target="Conframe" href="Template/Alert.html">出错提示</a></li>
-                        <li><b class="tip"></b><a target="Conframe" href="Template/Alert.html">警告提示</a></li>
-                        <li><b class="tip"></b><a target="Conframe" href="Template/Alert.html">询问提示</a></li>
-                        <li><b class="tip"></b><a target="Conframe" href="Template/Alert.html">对话框一</a></li>
-                        <li><b class="tip"></b><a target="Conframe" href="Template/Alert.html">对话框二</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <a class="one">辅助信息</a>
-                    <ul class="kid">
-                        <li><b class="tip"></b><a target="Conframe" href="Template/formstyle.html">寻访记录</a></li>
-                        <li><b class="tip"></b><a target="Conframe" href="Template/formstyle.html">数据说明</a></li>
-                        <li><b class="tip"></b><a target="Conframe" href="Template/formstyle.html">操作记录</a></li>
-                        <li><b class="tip"></b><a target="Conframe" href="Template/formstyle.html">提示</a></li>
+                        <li><b class="tip"></b><a target="Conframe" href="<c:url value='/jsps/admin/users/list_all_users.jsp'/>">所有用户</a></li>
+                        <li><b class="tip"></b><a target="Conframe" href="<c:url value='/jsps/admin/users/list_frozen_users.jsp'/>">冻结用户</a></li>
                     </ul>
                 </div>
                 <div id="datepicker"></div>

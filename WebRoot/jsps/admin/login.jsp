@@ -34,8 +34,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <label id="adminPwdError" class="errorClass"></label>
         </p>
         <p class="pcode">
-            <label>验证码：<input type="text" class="input" id="verifyCode" name="verifyCode" maxlength="5"/><img src="<c:url value='/VerifyCodeServlet'/>" alt="" class="imgcode" />
-            <a href="javascript:_hyz()">换一张</a>
+            <label>验证码：<input type="text" class="input" id="verifyCode" name="verifyCode" maxlength="5"/>
+	            <img src="<c:url value='/VerifyCodeServlet'/>"id="imgVerifyCode" alt="" class="imgcode" />
+	            <a href="javascript:_hyz()">换一张</a>
             </label>
         	<label id="verifyCodeError" class="errorClass"></label>
         </p>

@@ -1,6 +1,6 @@
 $(function() {	
 	/*
-	 * 2. 给登录按钮添加submit()事件，完成表单校验
+	 * 提交表单时候，完成表单校验
 	 */
 	$("#loginForm").submit(function(){
 		$("#msg").text("");
@@ -122,5 +122,5 @@ function _hyz() {
 	 * 2. 重新设置它的src
 	 * 3. 使用毫秒来添加参数
 	 */
-	$("#imgVerifyCode").attr("src", "/HaoLaimai/VerifyCodeServlet?a=" + new Date().getTime());
+	$("#imgVerifyCode").attr("src", "/HaoLaiMai/VerifyCodeServlet?a=" + new Date().getTime());
 }
