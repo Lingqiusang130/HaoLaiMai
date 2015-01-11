@@ -16,6 +16,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script type="text/javascript" src="<c:url value='/Scripts/jquery-1.7.2.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/Scripts/jquery.spritely-0.6.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/Scripts/admin/login.js'/>"></script>        
+	<script type="text/javascript">
+		$(function() {/*Map<String(Cookie名称),Cookie(Cookie本身)>*/
+			// 获取cookie中的用户名
+			var adminName = window.decodeURI("${cookie.cookieAdminName.value}");
+			if("${requestScope.form.adminName}") {
+				adminName = "${requestScope.form.adminName}";
+			}
+			$("#adminName").val(adminName);
+		});
+	</script>
 </head>
 <body>
     <div id="clouds" class="stage"></div>
@@ -24,21 +34,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
     <div class="row-fluid">
         <h1>艺谷（深圳）后台管理系统</h1>
-        <form action="<c:url value='/jsps/admin/index.jsp'/>" method="post" id="loginForm">
+        <form action="<c:url value='/AdminServlet'/>" method="post" id="loginForm">
+        <input type="hidden" name="method" value="login" />
+        <label class="errorClass">${msg}</label>
         <p>
-            <label>帐&nbsp;&nbsp;&nbsp;号：<input type="text" class="input" id="adminName" name="adminName"/></label>
-            <label id="adminNameError" class="errorClass"></label>
+            <label>帐&nbsp;&nbsp;&nbsp;号：<input type="text" class="input" id="adminName" name="adminName" value="${form.adminName} "/></label>
+            <label id="adminNameError" class="errorClass">${error.adminName }</label>
         </p>
         <p>
-            <label>密&nbsp;&nbsp;&nbsp;码：<input type="password" class="input" id="adminPwd" name="adminPwd"/></label>
-            <label id="adminPwdError" class="errorClass"></label>
+            <label>密&nbsp;&nbsp;&nbsp;码：<input type="password" class="input" id="adminPwd" name="adminPwd" value="${form.adminPwd}"/></label>
+            <label id="adminPwdError" class="errorClass">${error.adminPwd}</label>
         </p>
         <p class="pcode">
             <label>验证码：<input type="text" class="input" id="verifyCode" name="verifyCode" maxlength="5"/>
 	            <img src="<c:url value='/VerifyCodeServlet'/>"id="imgVerifyCode" alt="" class="imgcode" />
 	            <a href="javascript:_hyz()">换一张</a>
             </label>
-        	<label id="verifyCodeError" class="errorClass"></label>
+        	<label id="verifyCodeError" class="errorClass">${error.verifyCode }</label>
         </p>
         <input type="submit" id="submit" value=" 登 录 " class="btn btn-primary btn-large login" />
         

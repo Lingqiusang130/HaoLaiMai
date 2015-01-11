@@ -7,7 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cn.itcast.servlet.BaseServlet;
-
+/**
+ * 
+ * @author lingqiusang
+ *
+ */
 public class UserServlet extends BaseServlet {
 
 	public String ajaxValidateLoginname(HttpServletRequest req, HttpServletResponse resp)

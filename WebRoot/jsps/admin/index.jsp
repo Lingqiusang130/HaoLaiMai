@@ -22,7 +22,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div class="warp">
         <!--头部开始-->
         <div class="top_c">
-            <div class="top-nav">上午好，欢迎您，邱秋！&nbsp;&nbsp;<a href="#">修改密码</a> | <a href="#">安全退出</a></div>
+            <div class="top-nav">欢迎您，<a href="#">${sessionAdmin.adminNickName}</a>！&nbsp;&nbsp;<a href="#">修改密码</a> | <a href="#">安全退出</a></div>
         </div>
         <!--头部结束-->
         <!--左边菜单开始-->

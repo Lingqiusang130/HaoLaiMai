@@ -23,6 +23,11 @@
     <servlet-name>UserServlet</servlet-name>
     <servlet-class>edu.fjnu.haolaimai.controller.UserServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>AdminServlet</servlet-name>
+    <servlet-class>edu.fjnu.haolaimai.controller.AdminServlet</servlet-class>
+  </servlet>
+
   <servlet-mapping>
     <servlet-name>DBServletTest</servlet-name>
     <url-pattern>/DBServletTest</url-pattern>
@@ -34,5 +39,9 @@
   <servlet-mapping>
     <servlet-name>UserServlet</servlet-name>
     <url-pattern>/UserServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AdminServlet</servlet-name>
+    <url-pattern>/AdminServlet</url-pattern>
   </servlet-mapping>
 </web-app>

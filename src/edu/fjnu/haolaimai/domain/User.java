@@ -18,6 +18,8 @@ public class User {
 	private String userPwd;
 	/** 用户邮箱*/
 	private String email;
+	/** 用户状态*/
+	private int userStatus;
 	
 	public int getUserId() {
 		return userId;
@@ -43,4 +45,11 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	public int getUserStatus() {
+		return userStatus;
+	}
+	public void setUserStatus(int userStatus) {
+		this.userStatus = userStatus;
+	}
+	
 }

@@ -18,7 +18,15 @@ public class Admin {
 	private String adminPwd;
 	/** 管理员级别*/
 	private int adminGrade;
+	/** 管理员名字*/
+	private String adminNickName;
 	
+	public String getAdminNickName() {
+		return adminNickName;
+	}
+	public void setAdminNickName(String adminNickName) {
+		this.adminNickName = adminNickName;
+	}
 	public int getAdmindId() {
 		return admindId;
 	}
@@ -42,5 +50,10 @@ public class Admin {
 	}
 	public void setAdminGrade(int adminGrade) {
 		this.adminGrade = adminGrade;
+	}
+	@Override
+	public String toString() {
+		return "Admin [admindId=" + admindId + ", adminName=" + adminName
+				+ ", adminPwd=" + adminPwd + ", adminGrade=" + adminGrade + "]";
 	}	
 }

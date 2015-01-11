@@ -3,6 +3,8 @@
  */
 package edu.fjnu.haolaimai.service.impl;
 
+import edu.fjnu.haolaimai.dao.GoodDao;
+import edu.fjnu.haolaimai.dao.impl.GoodDaoImpl;
 import edu.fjnu.haolaimai.service.GoodService;
 
 /**
@@ -10,5 +12,5 @@ import edu.fjnu.haolaimai.service.GoodService;
  *
  */
 public class GoodServiceImpl implements GoodService{
-
+	private GoodDao goodDao = new GoodDaoImpl();
 }

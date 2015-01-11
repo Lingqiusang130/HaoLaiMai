@@ -13,9 +13,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import edu.fjnu.haolaimai.dao.AdminDao;
+import edu.fjnu.haolaimai.dao.impl.AdminDaoImpl;
 import edu.fjnu.haolaimai.domain.Admin;
 import edu.fjnu.haolaimai.utils.DBUtils;
-
+/**
+ * 
+ * @author lingqiusang
+ *
+ */
 public class DBServletTest extends HttpServlet {
 
 	/**
@@ -37,37 +43,9 @@ public class DBServletTest extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		final String LOAD_ALL_ADMIN="select * from t_admin";
-		Connection conn  = DBUtils.getInstance().getConn();
-		PreparedStatement pstmt=null;//准备参数
-		ResultSet rset=null;//结果集
-		List<Admin> adminList=null;
-		
-		try{
-			
-		  pstmt=conn.prepareStatement(LOAD_ALL_ADMIN);
-		  rset=pstmt.executeQuery();
-		  
-		  adminList=new ArrayList<Admin>();
-		  
-		  while(rset.next()){
-			  
-			  Admin admin=new Admin();
-			  admin.setAdmindId(rset.getInt("adid"));
-			  admin.setAdminName(rset.getString("adname"));
-			  admin.setAdminPwd(rset.getString("adpassword"));
-			  adminList.add(admin);
-		  }
-		  for (Admin admin : adminList) {
-			System.out.println(admin);
-		}
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally{
-			DBUtils.getInstance().ReleaseRes(conn, pstmt,rset);
-		}
+		AdminDao adminDao = new AdminDaoImpl();
+		Admin admin=adminDao.getAdminByName("123");
+		System.out.println(admin.toString());
 	}
 
 	/**
