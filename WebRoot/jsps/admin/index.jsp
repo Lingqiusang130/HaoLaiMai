@@ -22,7 +22,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div class="warp">
         <!--头部开始-->
         <div class="top_c">
-            <div class="top-nav">欢迎您，<a href="#">${sessionAdmin.adminNickName}</a>！&nbsp;&nbsp;<a href="#">修改密码</a> | <a href="#">安全退出</a></div>
+            <div class="top-nav">欢迎您，<a target="Conframe" href="<c:url value='/jsps/admin/update_adminpwd.jsp'/>">${sessionAdmin.adminNickName}</a>！&nbsp;&nbsp;<a href="#">修改密码</a> | <a href="#">安全退出</a></div>
         </div>
         <!--头部结束-->
         <!--左边菜单开始-->
@@ -74,7 +74,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <!--右边框架结束-->
 
         <!--底部开始-->
-        <div class="bottom_c">Copyright &copy;2005-2011 深圳艺谷发展科技有限公司 版权所有</div>
+        <div class="bottom_c">Copyright &copy;2014-2015 好来买科技有限公司 版权所有</div>
         <!--底部结束-->
     </div>
 </body>

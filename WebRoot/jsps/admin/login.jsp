@@ -33,7 +33,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
 
     <div class="row-fluid">
-        <h1>艺谷（深圳）后台管理系统</h1>
+        <h1>好来买后台管理系统</h1>
         <form action="<c:url value='/AdminServlet'/>" method="post" id="loginForm">
         <input type="hidden" name="method" value="login" />
         <label class="errorClass">${msg}</label>

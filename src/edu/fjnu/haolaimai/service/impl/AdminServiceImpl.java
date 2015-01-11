@@ -24,4 +24,10 @@ public class AdminServiceImpl implements AdminService{
 			 throw new ApplicationException("密码错误");
 		return admin;
 	}
+
+	@Override
+	public void updateAdminPwd(int adminId, String adminPwd) {
+		// TODO Auto-generated method stub
+		adminDao.updateAdminPwd(adminId, adminPwd);
+	}
 }

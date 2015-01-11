@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.jms.Session;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,22 @@ import edu.fjnu.haolaimai.service.impl.AdminServiceImpl;
 public class AdminServlet extends BaseServlet {
 	private AdminService adminService = new AdminServiceImpl();
 	
+	public String updateAdminPwd(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		Map<String,String> errors = new HashMap<String,String>();
+		String adminNPwd = request.getParameter("adminNPwd");
+		String adminNCPwd = request.getParameter("adminNCPwd");
+		Admin admin = (Admin) request.getSession().getAttribute("sessionAdmin");
+		if(admin==null){
+			return "r:/jsps/admin/login.jsp";
+		}
+		if(!adminNCPwd.equals(adminNPwd)){
+			errors.put("password", "密码不一致");
+			return "f:/jsps/admin/update_adminpwd.jsp";
+		}
+		adminService.updateAdminPwd(admin.getAdmindId(), adminNPwd);
+		return "f:/jsps/admin/index.jsp";
+	}
 	/**
 	 * 登录
 	 * @param req

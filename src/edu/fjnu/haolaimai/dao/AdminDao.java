@@ -12,4 +12,5 @@ import edu.fjnu.haolaimai.domain.Admin;
  */
 public interface AdminDao {
 	public Admin getAdminByName(String adminName);
+	public void updateAdminPwd(int adminId,String adminPwd);
 }

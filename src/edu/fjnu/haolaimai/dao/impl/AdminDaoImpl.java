@@ -17,7 +17,8 @@ import edu.fjnu.haolaimai.utils.DBUtils;
  *
  */
 public class AdminDaoImpl implements AdminDao {
-	private static final String GET_ADMIN_BY_NAME="select * from t_admin where admin_name=?";
+	private static final String GET_ADMIN_BY_NAME = "select * from t_admin where admin_name=?";
+	private static final String UPDATE_ADMINPWD = "update t_admin set admin_pwd=? where admin_id=?";
 	
 	@Override
 	public Admin getAdminByName(String adminName) {
@@ -51,6 +52,26 @@ public class AdminDaoImpl implements AdminDao {
 		   DBUtils.getInstance().ReleaseRes(conn, pstmt, rset);
 		}		
 		return admin;
+	}
+
+	@Override
+	public void updateAdminPwd(int adminId, String adminPwd) {
+		Connection conn=DBUtils.getInstance().getConn();
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		try {
+			
+		  pstmt=conn.prepareStatement(UPDATE_ADMINPWD);
+		  pstmt.setString(1, adminPwd);
+		  pstmt.setInt(2, adminId);
+		  System.out.println(pstmt.executeUpdate());
+		  
+ 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally{
+			DBUtils.getInstance().ReleaseRes(conn, pstmt, null);
+		}			
 	}
 
 }
