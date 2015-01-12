@@ -26,7 +26,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <table class="table table-striped table-bordered table-condensed list">
         <thead>
             <tr>
-                <td colspan="4"><b>商品信息</b></td>
+                <td colspan="4"><b>商品信息</b><b>${msg}</b></td>
             </tr>
         </thead>
         <tbody>
@@ -42,6 +42,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <!-- 如果为父类别不出现修改父类，为子类被才允许出现修改子类别 -->
             	<td>父类别<font color="FF0000">*</font></td>
                 <td colspan="3">
+                	<!-- 循环输出商品类名 -->
 					<select>
 					    <option>请选择商品大类名</option>
 						<option>家用电器</option>

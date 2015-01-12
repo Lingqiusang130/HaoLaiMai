@@ -23,6 +23,10 @@ public class Category {
 	/** 类别描述*/
 	private String decription;
 	
+	public Category(int cateId) {
+		super();
+		this.cateId = cateId;
+	}
 	public Category() {
 		super();
 	}

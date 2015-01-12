@@ -11,7 +11,7 @@ package edu.fjnu.haolaimai.domain;
  */
 public class CartItem {
 	/** 购物车号*/
-	private int cartItem;
+	private int cartItemId;
 	/** 购物商品数量*/
 	private int quantity;
 	/** 购物车号*/
@@ -23,12 +23,15 @@ public class CartItem {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public int getCartItem() {
-		return cartItem;
+
+	public int getCartItemId() {
+		return cartItemId;
 	}
-	public void setCartItem(int cartItem) {
-		this.cartItem = cartItem;
+
+	public void setCartItemId(int cartItemId) {
+		this.cartItemId = cartItemId;
 	}
+
 	public int getQuantity() {
 		return quantity;
 	}

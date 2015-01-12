@@ -52,8 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </label>
         	<label id="verifyCodeError" class="errorClass">${error.verifyCode }</label>
         </p>
-        <input type="submit" id="submit" value=" 登 录 " class="btn btn-primary btn-large login" />
-        
+        <input type="submit" id="submit" value=" 登 录 " class="btn btn-primary btn-large login" />       
     	</form>
     </div>
 </body>

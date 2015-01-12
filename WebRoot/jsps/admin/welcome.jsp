@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -19,10 +19,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-
+	<style type="text/css">
+		#welcome { 
+		  font-size:30px;
+          text-align:center;
+          margin-top:190px;
+          font-weight:bold;
+          color:#586683;
+          }
+	</style>
   </head>
   
   <body>
-    This is my JSP page. <br>
+    	<div id="welcome">欢迎来到,好来买后台管理系统</div>
+    	
   </body>
 </html>

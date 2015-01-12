@@ -3,6 +3,8 @@
  */
 package edu.fjnu.haolaimai.domain;
 
+import java.util.Arrays;
+
 /**
  * 商品
  * 
@@ -14,6 +16,7 @@ public class Good {
 	private int goodId;
 	/** 商品名 */
 	private String goodName;
+
 	/** 商品价格 */
 	private double goodPrice;
 	/** 商品图片 */
@@ -22,9 +25,28 @@ public class Good {
 	private Category category;
 	/** 商品描述 */
 	private String Description;
+	/** 库存状态*/
+	private int stockStatus;
+
+	public Good() {
+		super();
+		this.stockStatus = 1;
+	}
 
 	public int getGoodId() {
 		return goodId;
+	}
+
+	public int getStockStatus() {
+		return stockStatus;
+	}
+
+	public void setStockStatus(int stockStatus) {
+		this.stockStatus = stockStatus;
+	}
+
+	public Category getCategory() {
+		return category;
 	}
 
 	public void setGoodId(int goodId) {
@@ -65,6 +87,15 @@ public class Good {
 
 	public void setDescription(String description) {
 		Description = description;
+	}
+	
+	@Override
+	public String toString() {
+		return "Good [goodId=" + goodId + ", goodName=" + goodName
+				+ ", goodPrice=" + goodPrice + ", goodImage="
+				+ Arrays.toString(goodImage) + ", category=" + category
+				+ ", Description=" + Description + ", stockStatus="
+				+ stockStatus + "]";
 	}
 
 }

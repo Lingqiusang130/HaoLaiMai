@@ -15,14 +15,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script type="text/javascript" src="<c:url value='/Scripts/jquery-ui-1.8.22.custom.min.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/Scripts/admin/updatepwd.js'/>"></script>
     <link rel="stylesheet" type="text/css" href="<c:url value='/Styles/ui-lightness/jquery-ui-1.8.22.custom.css'/>" />
-    <style type="text/css">
-    	#adminNCPwdError{
-    		color : red;
-    	}
-    	#adminNPwdError{
-    		color : red;
-    	}
-    </style>
 </head>
 <body>
     <div class="alert alert-info">当前位置<b class="tip"></b>管理员密码修改</div>
@@ -43,14 +35,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	            	<td>新密码<font color="FF0000">*</font></td>
 	                <td colspan="3">
 	                	<input name="adminNPwd" id="adminNPwd" value="" type="password" class="inputClass" />
-	                	<a style='text-decoration:none;' id="adminNPwdError" name="adminNPwdError"></a>
+	                	<a style='text-decoration:none;' class="error" id="adminNPwdError" name="adminNPwdError"></a>
 	                </td>
 	            </tr>
 	            <tr>
 	            	<td>确认密码<font color="FF0000">*</font></td>
 	                <td colspan="3">
 	                	<input name="adminNCPwd" id="adminNCPwd" value="" type="password" class="inputClass" />
-	                	<a style='text-decoration:none;' id="adminNCPwdError" name="adminNCPwdError">${password}</a>
+	                	<a style='text-decoration:none;' class="error" id="adminNCPwdError" name="adminNCPwdError">${password}</a>
 	                </td>
 	            </tr>
 	        </tbody>

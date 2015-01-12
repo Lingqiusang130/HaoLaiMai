@@ -36,6 +36,9 @@ public class AdminServlet extends BaseServlet {
 			return "f:/jsps/admin/update_adminpwd.jsp";
 		}
 		adminService.updateAdminPwd(admin.getAdmindId(), adminNPwd);
+		request.getSession().removeAttribute("sessionAdmin");
+		admin.setAdminPwd(adminNPwd);
+		request.getSession().setAttribute("sessionAdmin", admin);
 		return "f:/jsps/admin/index.jsp";
 	}
 	/**

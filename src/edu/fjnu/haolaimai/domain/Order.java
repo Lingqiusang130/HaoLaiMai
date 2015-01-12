@@ -15,7 +15,7 @@ public class Order {
 	/** 订单号*/
 	private int orderId;
 	/** 订单时间*/
-	private String orderIime;
+	private String orderTime;
 	/** 订单总价*/
 	private double orderTotal;
 	/** 订单状态 :1未付款, 2已付款但未发货, 3已发货未确认收货, 4确认收货了交易成功, 5已取消(只有未付款才能取消) */
@@ -33,11 +33,11 @@ public class Order {
 	public void setOrderId(int orderId) {
 		this.orderId = orderId;
 	}
-	public String getOrderIime() {
-		return orderIime;
+	public String getOrderTime() {
+		return orderTime;
 	}
-	public void setOrderIime(String orderIime) {
-		this.orderIime = orderIime;
+	public void setOrderTime(String orderTime) {
+		this.orderTime = orderTime;
 	}
 	public double getOrderTotal() {
 		return orderTotal;
