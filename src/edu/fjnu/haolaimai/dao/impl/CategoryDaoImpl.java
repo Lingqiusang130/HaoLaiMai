@@ -117,7 +117,7 @@ public class CategoryDaoImpl implements CategoryDao {
 			  rset=pstmt.executeQuery();
 			  children = new ArrayList<Category>();
 			  
-			  if(rset.next()){
+			  while(rset.next()){
 				  
 				  Category category=new Category();
 				  category.setCateId(rset.getInt("cate_id"));

@@ -89,10 +89,7 @@ function validateGoodPrice() {
  * 商品小类别选择
  */
 function validateReCategoryIdS() {
-	alert("123");
 	var id = "categoryIdS";
-	var value = $("#"+id).val();
-	alert(value);
 	if($("#"+id).val()==0){
 		$("#" + id + "Error").text("必选选择商品类别");
 		return false;

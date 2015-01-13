@@ -20,44 +20,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		{
 			return document.getElementById(elementId);
 		}
-		//定义了城市的二维数组，里面的顺序跟省份的顺序是相同的。通过selectedIndex获得省份的下标值来得到相应的城市数组  
 		function getCity(){ 
-			alert("111");
-			//获取request中的值
-			var children=new Array(); //定义一维数组 
 			var i=0;
-			var j=0;
-			alert(parents);
-			for(parent in "${parents}"){
-				alert(parent);
-				children[i]=new Array(); //将每一个子元素又定义为数组
-				for(child in parent.children){
-					children[i][j]=child[i].cateName;
-					j++;
-				}
-				i++;
-			}
-			/**for(var i=0;i<parents.length;i++){
-				children[i]=new Array(); //将每一个子元素又定义为数组 
-				alert(prents[i]);
-			    for(var j=0;j<parent[i].length;j++) { 
-			    	
-			    	children[i][j]=parent[i].cateName; 
-			    } 
-	        }*/
-			alert("123");
-			//获得省份下拉框的对象  
+			var j=0;			
+			//获得商品大类别下拉框的对象  
 			var sltProvince=document.addGoodForm.categoryIdB;
-			//获得城市下拉框的对象  
-			var sltCity=document.addGoodForm.categoryIdS;  
-			//得到对应省份的城市数组  
-			var provinceCity=children[sltProvince.selectedIndex - 1];  
-			//清空城市下拉框，仅留提示选项  
+			//获得商品小类别下拉框的对象  
+			var sltCity=document.addGoodForm.categoryIdS;
+			//获得选中下拉框的索引
+			var index = sltProvince.selectedIndex - 1;
+			//清空商品小类别下拉框，仅留提示选项  
 			sltCity.length=1;  
-			//将城市数组中的值填充到城市下拉框中  
-			for(var i=0;i<provinceCity.length;i++){  
-				sltCity[i+1]=new Option(provinceCity[i],provinceCity[i]);  
-			}  
+			//将商品小类中值填充到商品小类下拉框中  
+			<c:forEach items="${parents}" var="parent">
+				if(i==index){
+				  <c:forEach items="${parent.children}" var="child">	
+				  	sltCity[j+1]=new Option("${child.cateName}","${child.cateId}");
+				  	j++;			  	
+				  </c:forEach>
+				}
+			 	 i++;
+			</c:forEach>
 		}  
 	</script>  
 </head>
