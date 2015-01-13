@@ -17,10 +17,10 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import edu.fjnu.haolaimai.domain.Category;
 import edu.fjnu.haolaimai.domain.Good;
 import edu.fjnu.haolaimai.exception.ApplicationException;
+import edu.fjnu.haolaimai.service.CategoryService;
 import edu.fjnu.haolaimai.service.GoodService;
+import edu.fjnu.haolaimai.service.impl.CategoryServiceImpl;
 import edu.fjnu.haolaimai.service.impl.GoodServiceImpl;
-import edu.fjnu.hotelsys.service.HotelService;
-import edu.fjnu.hotelsys.service.HotelServiceImpl;
 
 public class GoodServlet extends HttpServlet {
 
@@ -117,9 +117,16 @@ public class GoodServlet extends HttpServlet {
 
 		}
 		else if("loadHotel".equals(method)){
-			request.setAttribute("hotelList", hotelService.loadall());
-			
-			request.getRequestDispatcher("jsps/hotel/list_hotel.jsp").forward(request, response);
+//			request.setAttribute("hotelList", hotelService.loadall());
+//			
+//			request.getRequestDispatcher("jsps/hotel/list_hotel.jsp").forward(request, response);
+		}
+		else if("toAddGood".equals(method)){
+			System.out.println("toAddGood....");
+			CategoryService categoryService = new CategoryServiceImpl();
+			List<Category> parents = categoryService.loadAllCategory();
+			request.setAttribute("parents", parents);
+			request.getRequestDispatcher("jsps/admin/goods/input_good.jsp").forward(request, response);
 		}
 	}
 

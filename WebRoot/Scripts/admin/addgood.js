@@ -11,7 +11,7 @@ $(function() {
 		if(!validateGoodPrice()) {
 			bool = false;
 		}
-		if(!validateReAdminNCPwd()) {
+		if(!validateReCategoryIdS()) {
 			bool = false;
 		}
 		return bool;
@@ -88,10 +88,11 @@ function validateGoodPrice() {
 /*
  * 商品小类别选择
  */
-function validateReAdminNCPwd() {
-	
+function validateReCategoryIdS() {
+	alert("123");
 	var id = "categoryIdS";
-	
+	var value = $("#"+id).val();
+	alert(value);
 	if($("#"+id).val()==0){
 		$("#" + id + "Error").text("必选选择商品类别");
 		return false;
