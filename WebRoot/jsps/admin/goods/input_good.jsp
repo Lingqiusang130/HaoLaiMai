@@ -18,6 +18,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript">
 		function changeImage(elementId)
 		{
+			alert("12");
 			return document.getElementById(elementId);
 		}
 		function getCity(){ 
@@ -72,7 +73,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	            <tr>
 	            	<td>商品图片<font color="FF0000">*</font></td>
 	                <td colspan="3">
-	                	<img width="240" height="150" id="goodPic" src="<c:url value='/img/1.jpg'/>"/>
+	                	<img width="240" height="150" id="goodPic" src="<c:url value='/img/no-pic.jpg'/>"/>
 	                	<div><br/><input type="file" name="goodImage" id="goodImage" class="input" size="80" onchange="changeImage('goodPic').src=this.value;"/></div>
 	                </td>
 	            </tr>

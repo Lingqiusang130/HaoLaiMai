@@ -1,10 +1,12 @@
 package edu.fjnu.haolaimai.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -109,17 +111,23 @@ public class GoodServlet extends HttpServlet {
 				}
 			}
 			try{
-				goodService.add(good);
+				goodService.addGood(good);
 			}catch(ApplicationException e){
 				request.setAttribute("msg", e.getMessage());
 			}
 			response.sendRedirect("jsps/admin/goods/list_goods.jsp");
 
 		}
-		else if("loadHotel".equals(method)){
-//			request.setAttribute("hotelList", hotelService.loadall());
-//			
-//			request.getRequestDispatcher("jsps/hotel/list_hotel.jsp").forward(request, response);
+		else if("loadAllGoods".equals(method)){
+			//获取所有商品
+			request.setAttribute("goodList", goodService.loadAllGood());
+			
+			//获取所有商品类别
+			CategoryService categoryService = new CategoryServiceImpl();
+			List<Category> parents = categoryService.loadAllCategory();
+			request.setAttribute("parents", parents);
+			
+			request.getRequestDispatcher("jsps/admin/goods/list_goods.jsp").forward(request, response);
 		}
 		else if("toAddGood".equals(method)){
 			System.out.println("toAddGood....");
@@ -128,6 +136,30 @@ public class GoodServlet extends HttpServlet {
 			request.setAttribute("parents", parents);
 			request.getRequestDispatcher("jsps/admin/goods/input_good.jsp").forward(request, response);
 		}
+		else if("getpic".equals(method)){
+
+			int goodId=Integer.parseInt(request.getParameter("goodId"));
+			
+			byte[] goodPic=goodService.getGoodPic(goodId);
+			
+			if(goodPic==null || goodPic.length==0){
+				
+				String realPath=request.getRealPath("/img/no-pic.jpg"); //真实物理磁盘路径 ，注意和网站路径区分。
+				
+				FileInputStream fis=new FileInputStream(realPath);
+				
+				goodPic=new byte[fis.available()];
+				fis.read(goodPic);
+				fis.close();
+			}
+			
+			response.setContentType("image/jpeg");
+			ServletOutputStream sos=response.getOutputStream();
+			sos.write(goodPic);
+			sos.flush();
+			sos.close();
+			
+		}		
 	}
 
 

@@ -21,7 +21,14 @@ import edu.fjnu.haolaimai.service.impl.AdminServiceImpl;
 
 public class AdminServlet extends BaseServlet {
 	private AdminService adminService = new AdminServiceImpl();
-	
+	/**
+	 * 管理员密码修改
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	public String updateAdminPwd(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Map<String,String> errors = new HashMap<String,String>();

@@ -3,6 +3,8 @@
  */
 package edu.fjnu.haolaimai.service.impl;
 
+import java.util.List;
+
 import edu.fjnu.haolaimai.dao.GoodDao;
 import edu.fjnu.haolaimai.dao.impl.GoodDaoImpl;
 import edu.fjnu.haolaimai.domain.Good;
@@ -17,12 +19,25 @@ public class GoodServiceImpl implements GoodService{
 	private GoodDao goodDao = new GoodDaoImpl();
 
 	@Override
-	public void add(Good good) {
+	public void addGood(Good good) {
 		// TODO Auto-generated method stub
 		try{
 			goodDao.addGood(good);
 		}catch(ApplicationException e){
 			throw new ApplicationException("操作出错！");
 		}
+	}
+
+	@Override
+	public List<Good> loadAllGood() {
+		List<Good> goodList = null;
+		goodList = goodDao.loadAllGood();
+		return goodList;
+	}
+
+	@Override
+	public byte[] getGoodPic(int goodId) {
+		byte[] goodPid = goodDao.getGoodPic(goodId);
+		return goodPid;
 	}
 }
