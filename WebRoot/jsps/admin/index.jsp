@@ -32,7 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div>
                     <a class="one">商品管理</a>
                     <ul class="kid">
-                        <li><b class="tip"></b><a target="Conframe" href="<c:url value='/jsps/admin/goods/list_goods.jsp'/>">所有商品</a></li>
+                        <li><b class="tip"></b><a target="Conframe" href="<c:url value='/GoodServlet?method=loadAllGoods'/>">所有商品</a></li>
                         <li><b class="tip"></b><a target="Conframe" href="<c:url value='/GoodServlet?method=toAddGood'/>">添加新商品</a></li>
                     </ul>
                 </div>

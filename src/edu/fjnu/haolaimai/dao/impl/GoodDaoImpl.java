@@ -40,7 +40,7 @@ public class GoodDaoImpl implements GoodDao {
 			conn.setAutoCommit(false);//设置数据库为不自动提交，必须的一步	
 			
 			pstmt=conn.prepareStatement(ADD_GOOD);
-			pstmt.setString(1, good.getGoodName());
+			pstmt.setString(1, good.getGoodName().toString());
 			pstmt.setDouble(2, good.getGoodPrice());
 			pstmt.setString(3, good.getDescription());
 			pstmt.setInt(4,good.getCategory().getCateId());
@@ -103,7 +103,7 @@ public class GoodDaoImpl implements GoodDao {
 			  good.setDescription(rset.getString("description"));
 			  CategoryDao categoryDao = new CategoryDaoImpl();
 			  //通过catId查询菜单
-			  Category category = categoryDao.getCategoryById(rset.getInt("cat_id"));
+			  Category category = categoryDao.getCategoryById(rset.getInt("cate_id"));
 			  good.setCategory(category);
 			  good.setStockStatus(rset.getInt("stockstatus"));
 		  

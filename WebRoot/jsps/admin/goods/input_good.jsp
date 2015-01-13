@@ -18,25 +18,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript">
 		function changeImage(elementId)
 		{
-			alert("12");
 			return document.getElementById(elementId);
 		}
+		//菜单二级联动
 		function getCity(){ 
 			var i=0;
 			var j=0;			
 			//获得商品大类别下拉框的对象  
-			var sltProvince=document.addGoodForm.categoryIdB;
+			var categoryIdB=document.addGoodForm.categoryIdB;
 			//获得商品小类别下拉框的对象  
-			var sltCity=document.addGoodForm.categoryIdS;
+			var categoryIdS=document.addGoodForm.categoryIdS;
 			//获得选中下拉框的索引
-			var index = sltProvince.selectedIndex - 1;
+			var index = categoryIdB.selectedIndex - 1;
 			//清空商品小类别下拉框，仅留提示选项  
-			sltCity.length=1;  
+			categoryIdS.length=1;  
 			//将商品小类中值填充到商品小类下拉框中  
 			<c:forEach items="${parents}" var="parent">
 				if(i==index){
 				  <c:forEach items="${parent.children}" var="child">	
-				  	sltCity[j+1]=new Option("${child.cateName}","${child.cateId}");
+				  categoryIdS[j+1]=new Option("${child.cateName}","${child.cateId}");
 				  	j++;			  	
 				  </c:forEach>
 				}

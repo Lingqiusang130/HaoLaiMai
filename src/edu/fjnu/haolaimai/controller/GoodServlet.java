@@ -115,7 +115,7 @@ public class GoodServlet extends HttpServlet {
 			}catch(ApplicationException e){
 				request.setAttribute("msg", e.getMessage());
 			}
-			response.sendRedirect("jsps/admin/goods/list_goods.jsp");
+			response.sendRedirect("GoodServlet?method=loadAllGoods");
 
 		}
 		else if("loadAllGoods".equals(method)){
