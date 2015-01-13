@@ -9,6 +9,7 @@ import edu.fjnu.haolaimai.dao.GoodDao;
 import edu.fjnu.haolaimai.dao.impl.GoodDaoImpl;
 import edu.fjnu.haolaimai.domain.Good;
 import edu.fjnu.haolaimai.exception.ApplicationException;
+import edu.fjnu.haolaimai.service.GoodQueryHelper;
 import edu.fjnu.haolaimai.service.GoodService;
 
 /**
@@ -29,9 +30,9 @@ public class GoodServiceImpl implements GoodService{
 	}
 
 	@Override
-	public List<Good> loadAllGood() {
+	public List<Good> loadGood() {
 		List<Good> goodList = null;
-		goodList = goodDao.loadAllGood();
+		goodList = goodDao.loadGood();
 		return goodList;
 	}
 
@@ -39,5 +40,12 @@ public class GoodServiceImpl implements GoodService{
 	public byte[] getGoodPic(int goodId) {
 		byte[] goodPid = goodDao.getGoodPic(goodId);
 		return goodPid;
+	}
+
+	@Override
+	public List<Good> loadTermGood(GoodQueryHelper helper) {
+		List<Good> goodList = null;
+		goodList = goodDao.loadTermGood(helper);
+		return goodList;
 	}
 }

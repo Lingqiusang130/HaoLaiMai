@@ -3,6 +3,7 @@ package edu.fjnu.haolaimai.dao;
 import java.util.List;
 
 import edu.fjnu.haolaimai.domain.Good;
+import edu.fjnu.haolaimai.service.GoodQueryHelper;
 
 public interface GoodDao {
 	/**
@@ -14,11 +15,17 @@ public interface GoodDao {
 	 * 展示商品
 	 * @return
 	 */
-	public List<Good> loadAllGood();
+	public List<Good> loadGood();
 	/**
 	 * 获取商品图片
 	 * @param goodId
 	 * @return
 	 */
 	public byte[] getGoodPic(int goodId);
+	/**
+	 * 有条件的显示商品
+	 * @param helper
+	 * @return
+	 */
+	public List<Good> loadTermGood(GoodQueryHelper helper);
 }

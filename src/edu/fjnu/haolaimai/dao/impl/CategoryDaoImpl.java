@@ -21,9 +21,9 @@ import edu.fjnu.haolaimai.utils.DBUtils;
  *
  */
 public class CategoryDaoImpl implements CategoryDao {
-	private static final String LOAD_CATEGORY_BYNO = "select * from t_category where cate_id=?";
-	private static final String LOAD_ALL_PARENT = "select * from t_category where pid is null";
-	private static final String FIND_BY_PARENT = "select * from t_category where pid=?";
+	private static final String LOAD_CATEGORY_BYNO = "select * from t_category where state='1' and cate_id=?";
+	private static final String LOAD_ALL_PARENT = "select * from t_category where state='1' and pid is null";
+	private static final String FIND_BY_PARENT = "select * from t_category where state='1' and pid=?";
 	
 	@Override
 	public Category getCategoryById(int cateId) {

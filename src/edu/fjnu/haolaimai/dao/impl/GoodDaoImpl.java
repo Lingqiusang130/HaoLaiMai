@@ -13,11 +13,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import edu.fjnu.haolaimai.dao.CategoryDao;
 import edu.fjnu.haolaimai.dao.GoodDao;
 import edu.fjnu.haolaimai.domain.Category;
 import edu.fjnu.haolaimai.domain.Good;
 import edu.fjnu.haolaimai.exception.ApplicationException;
+import edu.fjnu.haolaimai.service.GoodQueryHelper;
 import edu.fjnu.haolaimai.utils.DBUtils;
 
 /**
@@ -27,8 +30,8 @@ import edu.fjnu.haolaimai.utils.DBUtils;
 public class GoodDaoImpl implements GoodDao {
 	
 	private static final String ADD_GOOD = "insert into t_good values(seq_good.nextval,?,?,Empty_BLOB(),?,?,?)";
-	private static final String LOAD_ALL_GOOD="select * from t_good order by good_id desc";
-	private static final String SQL_GETPIC="select good_image from t_good where good_id=?";
+	private static final String LOAD_ALL_GOOD="select * from t_good where stockstatus='1' order by good_id desc";
+	private static final String SQL_GETPIC="select good_image from t_good where stockstatus='1' and good_id=?";
 	
 	@Override
 	public void addGood(Good good) {
@@ -81,7 +84,7 @@ public class GoodDaoImpl implements GoodDao {
 	}
 
 	@Override
-	public List<Good> loadAllGood() {
+	public List<Good> loadGood() {
 		Connection conn=DBUtils.getInstance().getConn();
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
@@ -157,5 +160,73 @@ public class GoodDaoImpl implements GoodDao {
 			DBUtils.getInstance().ReleaseRes(conn, pstmt, rset);
 		}
 		return goodPic;
+	}
+
+	@Override
+	public List<Good> loadTermGood(GoodQueryHelper helper) {
+		Connection conn=DBUtils.getInstance().getConn();
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		List<Good> goodList=null;
+		
+		try{
+			
+		  pstmt=conn.prepareStatement(this.generateSQL(helper));
+		  rset=pstmt.executeQuery();
+		  
+		  goodList=new ArrayList<Good>();
+		  
+		  while(rset.next()){
+			  
+			  Good good=new Good();
+			  good.setGoodId(rset.getInt("good_id"));
+			  good.setGoodName(rset.getString("good_name"));
+			  good.setGoodPrice(rset.getDouble("good_price"));
+			  good.setDescription(rset.getString("description"));
+			  CategoryDao categoryDao = new CategoryDaoImpl();
+			  //通过catId查询菜单
+			  Category category = categoryDao.getCategoryById(rset.getInt("cate_id"));
+			  good.setCategory(category);
+			  good.setStockStatus(rset.getInt("stockstatus"));
+		  
+			  goodList.add(good);		  
+		  }
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally{
+			DBUtils.getInstance().ReleaseRes(conn, pstmt,rset);
+		}
+		
+		return goodList;
+	}
+	
+	/**
+	 * 根据查询条件，动态生成商品查询SQL语句
+	 * @param helper
+	 * @return
+	 */
+	private String generateSQL(GoodQueryHelper helper){
+		
+		String baseSQL="select * from t_good where stockstatus='1'";
+
+		if(helper.getCategoryIdB()!=null){			
+			if(helper.getCategoryIdS()!=null){
+				baseSQL+=" and cate_id='"+helper.getCategoryIdS()+"'";
+			}
+			else{
+				baseSQL="select * from t_good where stockstatus='1' and cate_Id IN(select CATE_ID from t_category where pid='"+helper.getCategoryIdB()+"')";				
+			}
+		}				
+		if(StringUtils.isNotEmpty(helper.getKeyValue())){
+			baseSQL+=" and good_name like '%"+helper.getKeyValue()+"%'";
+		}
+		
+		baseSQL+=" order by good_id desc";
+		
+		System.out.println("SQL BY HELPER:"+baseSQL);
+		
+		return baseSQL;		
 	}	
 }

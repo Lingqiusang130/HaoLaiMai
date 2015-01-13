@@ -15,11 +15,13 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.lang3.StringUtils;
 
 import edu.fjnu.haolaimai.domain.Category;
 import edu.fjnu.haolaimai.domain.Good;
 import edu.fjnu.haolaimai.exception.ApplicationException;
 import edu.fjnu.haolaimai.service.CategoryService;
+import edu.fjnu.haolaimai.service.GoodQueryHelper;
 import edu.fjnu.haolaimai.service.GoodService;
 import edu.fjnu.haolaimai.service.impl.CategoryServiceImpl;
 import edu.fjnu.haolaimai.service.impl.GoodServiceImpl;
@@ -45,6 +47,7 @@ public class GoodServlet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
 		GoodService goodService = new GoodServiceImpl();
 		/**
 		 * 还未实现输出商品类名
@@ -115,12 +118,32 @@ public class GoodServlet extends HttpServlet {
 			}catch(ApplicationException e){
 				request.setAttribute("msg", e.getMessage());
 			}
-			response.sendRedirect("GoodServlet?method=loadAllGoods");
+			response.sendRedirect("GoodServlet?method=loadGoods");
 
 		}
-		else if("loadAllGoods".equals(method)){
+		else if("loadGoods".equals(method)){
+			
+			//获取组合查询条件
+			GoodQueryHelper helper = new GoodQueryHelper();
+			if(StringUtils.isNotEmpty(request.getParameter("categoryIdB"))){
+				int categoryIdB = Integer.parseInt(request.getParameter("categoryIdB"));
+				if(categoryIdB!=0){
+					helper.setCategoryIdB(categoryIdB);
+				}
+			}
+			if(StringUtils.isNotEmpty(request.getParameter("categoryIdS"))){
+				int categoryIdS = Integer.parseInt(request.getParameter("categoryIdS"));
+				if(categoryIdS!=0){
+					helper.setCategoryIdS(categoryIdS);
+				}
+			}
+			if(StringUtils.isNotEmpty(request.getParameter("keyValue"))){
+				String keyValue = request.getParameter("keyValue");
+				helper.setKeyValue(keyValue);
+			}
+			
 			//获取所有商品
-			request.setAttribute("goodList", goodService.loadAllGood());
+			request.setAttribute("goodList", goodService.loadTermGood(helper));
 			
 			//获取所有商品类别
 			CategoryService categoryService = new CategoryServiceImpl();

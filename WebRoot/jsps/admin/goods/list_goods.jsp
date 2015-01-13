@@ -16,7 +16,38 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link rel="stylesheet" type="text/css" href="<c:url value='/Styles/ui-lightness/jquery-ui-1.8.22.custom.css'/>" />
 	
 	<script type="text/javascript">
-		function getCity(){ 
+		//选中数据回填
+		function load(){
+			//获得商品大类别下拉框的对象  
+			var categoryIdB=document.getElementById("categoryIdB");
+			//获得商品小类别下拉框的对象  
+			var categoryIdS=document.getElementById("categoryIdS");	
+			var i=0;
+			var j=0;
+			index = categoryIdB.value - 1;
+			if(index!=-1){				
+				//将商品小类中值填充到商品小类下拉框中  
+				<c:forEach items="${parents}" var="parent">			
+					if(i==index){
+					  <c:forEach items="${parent.children}" var="child">
+					  var cids="${param.categoryIdS}";
+					  var childId = "${child.cateId}";
+					  if(cids == childId){					  
+						  categoryIdS[j+1]=new Option("${child.cateName}","${child.cateId}");
+						  document.getElementById("categoryIdS").options[j+1].selected = true; //保持选中状态
+						  j++;
+					  }else{
+						  categoryIdS[j+1]=new Option("${child.cateName}","${child.cateId}");
+						  j++;
+					  }
+					  </c:forEach>
+					}
+				 	 i++;
+				</c:forEach>
+
+			}
+		}
+		function getKind(){ 
 			var i=0;
 			var j=0;			
 			//获得商品大类别下拉框的对象  
@@ -37,27 +68,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				}
 			 	 i++;
 			</c:forEach>
-		}  
+		} 		
 	</script>  
 </head>
 
-<body>
+<body onload="load();">
     <div class="alert alert-info">当前位置<b class="tip"></b>商品管理<b class="tip"></b>所有商品</div>
     <div>
+    <form action="<c:url value='/GoodServlet'/>" method="post">
+    <input type="hidden" name="method" value="loadGoods" />
      <span>商品大类：</span>
-		<select name="categoryIdB" id="categoryIdB" class="select" onchange="getCity()" >
+		<select name="categoryIdB" id="categoryIdB" class="select" onchange="getKind()" >
 			<option value="0">==商品大类别==</option>
 			<c:forEach items="${parents}" var="parent">
-				<option value="${parent.cateId}">${parent.cateName}</option>
+				<option value="${parent.cateId}" <c:if test="${param.categoryIdB==parent.cateId}">selected</c:if> >${parent.cateName}</option>
 			</c:forEach>
 		</select>
      <span>商品小类：</span>
        <select name="categoryIdS" id="categoryIdS" class="select">
-	     	<option value="0" selected="selected">==商品小类别==</option>
+	     	<option value="0">==商品小类别==</option>
 	   </select>
      <span>关键字：</span>
-     <input type="text" />
-     <input class="btn btn-inverse" id="find" type="button" value="查询" />
+     <input type="text" name="keyValue" id="keyValue" value="${param.keyValue}"/>
+     <input class="btn btn-inverse" id="find" type="submit" value="查询" />
+     </form>
     </div>
     <br>
     <table class="table table-striped table-bordered table-condensed" id="list">

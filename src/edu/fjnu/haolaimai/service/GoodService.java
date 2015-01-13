@@ -21,11 +21,17 @@ public interface GoodService {
 	 * 展示商品
 	 * @return
 	 */
-	public List<Good> loadAllGood();
+	public List<Good> loadGood();
 	/**
 	 * 获取商品图片
 	 * @param goodId
 	 * @return
 	 */
-	public byte[] getGoodPic(int goodId);
+	public byte[] getGoodPic(int goodId);	
+	/**
+	 * 有条件的显示商品
+	 * @param helper
+	 * @return
+	 */
+	public List<Good> loadTermGood(GoodQueryHelper helper);
 }
