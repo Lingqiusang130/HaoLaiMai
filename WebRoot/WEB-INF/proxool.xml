@@ -6,7 +6,7 @@
     <alias>haolaimai</alias> <!-- ds:DataSource -->
     
     <!-- 数据库连接信息 -->
-    <driver-url>jdbc:oracle:thin:@localhost:1521:orcl</driver-url>
+    <driver-url>jdbc:oracle:thin:@172.17.201.28:1521:orcl</driver-url>
     
     <driver-class>oracle.jdbc.driver.OracleDriver</driver-class>
     
@@ -17,7 +17,7 @@
     
 
     <!-- 最大连接数 -->
-    <maximum-connection-count>100</maximum-connection-count> 
+    <maximum-connection-count>1000</maximum-connection-count> 
     
     <!-- 最小连接数 -->
     <minimum-connection-count>10</minimum-connection-count>    

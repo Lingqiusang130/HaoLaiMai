@@ -4,7 +4,11 @@ import java.util.List;
 
 import edu.fjnu.haolaimai.domain.Good;
 import edu.fjnu.haolaimai.service.GoodQueryHelper;
-
+/**
+ * 
+ * @author lingqiusang
+ *
+ */
 public interface GoodDao {
 	/**
 	 * 添加商品
@@ -28,4 +32,9 @@ public interface GoodDao {
 	 * @return
 	 */
 	public List<Good> loadTermGood(GoodQueryHelper helper);
+	/**
+	 * 删除商品
+	 * @param goodId
+	 */
+	public void removeGood(int goodId);
 }

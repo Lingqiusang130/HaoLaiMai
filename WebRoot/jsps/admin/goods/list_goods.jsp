@@ -68,7 +68,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				}
 			 	 i++;
 			</c:forEach>
-		} 		
+		}
+		function removeRoom(goodId,goodName){
+	          if(confirm("您确认要删除["+goodName+"商品]的信息资料吗?")){         
+	             location.href='<c:url value="/GoodServlet?method=removeGood"/>&goodId='+goodId;
+	          }
+	       }
 	</script>  
 </head>
 
@@ -94,6 +99,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      </form>
     </div>
     <br>
+    <c:if test="${ not empty goodList}">
     <table class="table table-striped table-bordered table-condensed" id="list">
         <thead>
             <tr class="tr_detail">
@@ -117,7 +123,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <td>${good.description}</td>
                 <td>
                 	<span><input class="btn btn-inverse" id="find" type="button" onclick="" value="修改" /></span>
-                	<span><input class="btn btn-inverse" id="find" type="button" onclick="" value="删除" /></span>
+                	<span><input class="btn btn-inverse" id="find" type="button"  title="点击删除[${good.goodName}商品]信息资料"
+		                         onclick="removeRoom(${good.goodId},'${good.goodName}');" value="删除" /></span>
                 </td>
             </tr>
 		</c:forEach>
@@ -127,5 +134,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<a class="badge badge-inverse">1</a>&nbsp;<a class="badge badge-inverse">2</a>&nbsp;<a class="badge badge-inverse">3</a>&nbsp;<a class="badge badge-inverse">4</a>&nbsp;
     	<a class="badge badge-warning">5</a>&nbsp;<a class="badge badge-inverse">...</a>&nbsp;<a class="badge badge-inverse">55</a>&nbsp;<a class="badge badge-inverse">上一页</a>&nbsp;<a class="badge badge-inverse">尾页</a>
     </span>
+   </c:if>
+   <c:if test="${empty goodList}">
+   	<script type="text/javascript">
+   		alert("没有任何符合条件的商品信息被找到");
+   	</script>
+   </c:if>
 </body>
 </html>

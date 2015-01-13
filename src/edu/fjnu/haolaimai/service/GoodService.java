@@ -34,4 +34,9 @@ public interface GoodService {
 	 * @return
 	 */
 	public List<Good> loadTermGood(GoodQueryHelper helper);
+	/**
+	 * 删除商品
+	 * @param goodId
+	 */
+	public void removeGood(int goodId);
 }

@@ -48,4 +48,10 @@ public class GoodServiceImpl implements GoodService{
 		goodList = goodDao.loadTermGood(helper);
 		return goodList;
 	}
+
+	@Override
+	public void removeGood(int goodId) {
+		// TODO Auto-generated method stub
+		goodDao.removeGood(goodId);
+	}
 }

@@ -32,6 +32,7 @@ public class GoodDaoImpl implements GoodDao {
 	private static final String ADD_GOOD = "insert into t_good values(seq_good.nextval,?,?,Empty_BLOB(),?,?,?)";
 	private static final String LOAD_ALL_GOOD="select * from t_good where stockstatus='1' order by good_id desc";
 	private static final String SQL_GETPIC="select good_image from t_good where stockstatus='1' and good_id=?";
+	private static final String DEL_GOOD_BYID="update t_good set stockstatus='0' where good_id=?";
 	
 	@Override
 	public void addGood(Good good) {
@@ -228,5 +229,25 @@ public class GoodDaoImpl implements GoodDao {
 		System.out.println("SQL BY HELPER:"+baseSQL);
 		
 		return baseSQL;		
+	}
+
+	@Override
+	public void removeGood(int goodId) {
+		// TODO Auto-generated method stub
+		Connection conn=DBUtils.getInstance().getConn();
+		PreparedStatement pstmt=null;
+		
+		try {
+		  pstmt=conn.prepareStatement(DEL_GOOD_BYID);
+		  pstmt.setInt(1, goodId);
+		  pstmt.executeUpdate();
+		  
+ 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();		
+			
+		} finally{
+		   DBUtils.getInstance().ReleaseRes(conn, pstmt, null);
+		}		
 	}	
 }

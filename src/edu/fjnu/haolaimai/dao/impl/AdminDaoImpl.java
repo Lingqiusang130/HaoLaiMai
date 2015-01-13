@@ -64,7 +64,7 @@ public class AdminDaoImpl implements AdminDao {
 		  pstmt=conn.prepareStatement(UPDATE_ADMINPWD);
 		  pstmt.setString(1, adminPwd);
 		  pstmt.setInt(2, adminId);
-		  System.out.println(pstmt.executeUpdate());
+		  pstmt.executeUpdate();
 		  
  		} catch (SQLException e) {
 			// TODO Auto-generated catch block

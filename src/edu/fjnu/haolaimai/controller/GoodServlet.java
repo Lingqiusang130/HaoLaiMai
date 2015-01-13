@@ -49,9 +49,7 @@ public class GoodServlet extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		GoodService goodService = new GoodServiceImpl();
-		/**
-		 * 还未实现输出商品类名
-		 */
+
 		//找到本机JAVA默认的临时存储空间，用来作为数据获取过程中的缓存区
 		File tempFile=new File(System.getProperty("java.io.tmpdir")); //目录也是文件，目录是一个特殊的文件，其实目录本质上是一个文本文件，包含了这个目录下文件的列表信息。
 		DiskFileItemFactory factory=new DiskFileItemFactory();
@@ -182,7 +180,12 @@ public class GoodServlet extends HttpServlet {
 			sos.flush();
 			sos.close();
 			
-		}		
+		}
+		else if("removeGood".equals(method)){
+			int goodId=Integer.parseInt(request.getParameter("goodId"));
+			goodService.removeGood(goodId);
+			response.sendRedirect("GoodServlet?method=loadGoods");
+		}
 	}
 
 
