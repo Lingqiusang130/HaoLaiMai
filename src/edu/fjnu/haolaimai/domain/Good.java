@@ -16,7 +16,6 @@ public class Good {
 	private int goodId;
 	/** 商品名 */
 	private String goodName;
-
 	/** 商品价格 */
 	private double goodPrice;
 	/** 商品图片 */
