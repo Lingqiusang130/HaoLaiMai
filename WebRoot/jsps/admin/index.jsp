@@ -40,7 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <a class="one">类别管理</a>
                     <ul class="kid">
 						<li><b class="tip"></b><a target="Conframe" href="<c:url value='/CategoryServlet?method=loadAllCategory'/>">所有类别</a></li>
-                        <li><b class="tip"></b><a target="Conframe" href="<c:url value='/jsps/admin/categorys/input_category.jsp'/>">添加新类别</a></li>
+                        <li><b class="tip"></b><a target="Conframe" href="<c:url value='/CategoryServlet?method=toInputCategory'/>">添加新类别</a></li>
                     </ul>
                 </div>
                 <div>

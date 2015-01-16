@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import cn.itcast.servlet.BaseServlet;
 import edu.fjnu.haolaimai.domain.Admin;
 import edu.fjnu.haolaimai.domain.Category;
+import edu.fjnu.haolaimai.exception.DataAccessException;
 import edu.fjnu.haolaimai.service.CategoryQueryHelper;
 import edu.fjnu.haolaimai.service.CategoryService;
 import edu.fjnu.haolaimai.service.GoodQueryHelper;
@@ -22,7 +23,14 @@ import edu.fjnu.haolaimai.utils.Page;
 
 public class CategoryServlet extends BaseServlet {
 	private CategoryService categoryService = new CategoryServiceImpl();
-	
+	/**
+	 * 按条件分页显示所有商品种类
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	public String loadAllCategory(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
@@ -45,11 +53,77 @@ public class CategoryServlet extends BaseServlet {
 		//获取条件下商品类别
 		request.setAttribute("pageCategory", categoryService.loadTermPageCategory(helper, page));
 		
-		//获取所有商品类别
+		//获取所有商品大类别
 		CategoryService categoryService = new CategoryServiceImpl();
 		List<Category> parents = categoryService.getAllParentCategory();
 		request.setAttribute("parents", parents);
 		
 		return "f:/jsps/admin/categorys/list_categorys.jsp";
+	}
+	
+	/**
+	 * 添加商品种类前准备
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public String toInputCategory(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		//获取所有商品大类别
+		CategoryService categoryService = new CategoryServiceImpl();
+		List<Category> parents = categoryService.getAllParentCategory();
+		request.setAttribute("parents", parents);
+		
+		return "f:/jsps/admin/categorys/input_category.jsp";
+	}
+	/**
+	 * 添加商品种类
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public String addCategory(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		Category category = new Category();
+		category.setCateName(request.getParameter("cateName"));
+		category.setParent(new Category(Integer.parseInt(request.getParameter("categoryId"))));
+		category.setDecription(request.getParameter("description"));
+		try {
+			categoryService.addCategory(category);
+		} catch (DataAccessException e) {
+			request.setAttribute("err", e.getMessage());
+			return "f:/jsps/admin/categorys/input_category.jsp";
+		}
+		
+		return "r:/CategoryServlet?method=loadAllCategory";
+	}
+	/**
+	 * 修改商品种类前准备
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public String toUpdateCategory(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		
+		return null;
+	}
+	/**
+	 * 修改商品种类
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public String updateCategory(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		return null;
 	}
 }

@@ -3,6 +3,8 @@
  */
 package edu.fjnu.haolaimai.dao.impl;
 
+import java.io.IOException;
+import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import edu.fjnu.haolaimai.dao.CategoryDao;
 import edu.fjnu.haolaimai.domain.Category;
 import edu.fjnu.haolaimai.domain.Good;
+import edu.fjnu.haolaimai.exception.DataAccessException;
 import edu.fjnu.haolaimai.service.CategoryQueryHelper;
 import edu.fjnu.haolaimai.service.GoodQueryHelper;
 import edu.fjnu.haolaimai.utils.DBUtils;
@@ -28,7 +31,8 @@ public class CategoryDaoImpl implements CategoryDao {
 	private static final String LOAD_CATEGORY_BYNO = "select * from t_category where state='1' and cate_id=?";
 	private static final String LOAD_ALL_PARENT = "select * from t_category where state='1' and pid is null";
 	private static final String FIND_BY_PARENT = "select * from t_category where state='1' and pid=?";
-
+	private static final String ADD_CATEGOTY = "insert into t_category values(seq_cate.nextval,?,?,?,?)";
+	private static final String UPDATE_CATEGORY = "update t_category set cate_name=?,description=?,pid=? where cate_id=?";
 	@Override
 	public Category getCategoryById(int cateId) {
 		Connection conn=DBUtils.getInstance().getConn();
@@ -277,6 +281,61 @@ public class CategoryDaoImpl implements CategoryDao {
 		}
 		
 		return parents;
+	}
+
+	@Override
+	public void addCategory(Category category) {
+		Connection conn=DBUtils.getInstance().getConn();
+		PreparedStatement pstmt=null;
+		
+		try {
+			
+			pstmt=conn.prepareStatement(ADD_CATEGOTY);
+			pstmt.setString(1, category.getCateName());
+			pstmt.setString(2, category.getDecription());
+			
+			if(category.getParent().getCateId()==0){
+				pstmt.setString(3, null);
+			}else{
+				pstmt.setInt(3, category.getParent().getCateId());
+			}
+			pstmt.setInt(4,1);
+			
+			pstmt.executeUpdate();
+					
+		}catch(SQLException e)
+		{
+			if(e.getMessage().contains("HAOLAIMAI.T_CATEGORY_UK1")){
+				throw new DataAccessException("已经存在这["+category.getCateName()+"]的类别，请检查！");
+			}
+
+		}finally{
+			DBUtils.getInstance().ReleaseRes(conn, pstmt, null);
+		}
+	}
+
+	@Override
+	public void updateCategory(Category category) {		
+		Connection conn=DBUtils.getInstance().getConn();
+		PreparedStatement pstmt=null;
+		
+		try {
+			
+			pstmt=conn.prepareStatement(UPDATE_CATEGORY);
+			pstmt.setString(1, category.getCateName());
+			pstmt.setString(2, category.getDecription());
+			pstmt.setInt(3, category.getParent().getCateId());
+			pstmt.setInt(4, category.getCateId());
+			
+			pstmt.executeUpdate();
+					
+		}catch(SQLException e)
+		{
+			e.printStackTrace();
+
+		}finally{
+			DBUtils.getInstance().ReleaseRes(conn, pstmt, null);
+		}
 	}
 	
 }

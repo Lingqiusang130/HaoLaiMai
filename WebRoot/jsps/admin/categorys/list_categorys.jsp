@@ -14,10 +14,42 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script type="text/javascript" src="<c:url value='/Scripts/jquery-1.7.2.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/Scripts/jquery-ui-1.8.22.custom.min.js'/>"></script>
     <link rel="stylesheet" type="text/css" href="<c:url value='/Styles/ui-lightness/jquery-ui-1.8.22.custom.css'/>" />
+    
     <script type="text/javascript">
-    	function load() {
-			alert("123123");
+    function removeCate(cateId,cateName){
+        if(confirm("您确认要删除["+cateName+"商品]的信息资料吗?")){         
+           location.href='<c:url value="/CategoryServlet?method=removeCategory"/>&cateId='+cateId;
+        }
+ 	 }
+    function updateCate(cateId){
+        location.href='<c:url value="/CategoryServlet?method=toPreUpdate"/>&goodId='+goodId;
+   	}
+	function $(elementId)
+	{
+		return document.getElementById(elementId);
+	}
+	//只输入数字
+	function onlynumber()
+	{
+		if(event.keyCode==13)
+			return true;
+		if(event.keyCode<48||event.keyCode>57)
+		{
+			event.keyCode=0;
+			event.returnValue=false;
 		}
+		event.returnValue=true;
+	}
+	function doQuery(pageno){
+		if (pageno<1 || pageno>${pageCategory.totalPageNum}) {
+				alert("页号超出范围，有效范围：[1-${page.totalPageNum}]!");
+				$('pageNo').select();
+				return;
+			}
+		var f = document.forms[0];
+		f.action = f.action + "?method=loadAllCategory&pageno=" + pageno;
+		f.submit();
+	}
     </script>
 </head>
 <body onload="load">

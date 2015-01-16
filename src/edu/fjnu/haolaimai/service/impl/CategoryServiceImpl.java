@@ -48,4 +48,16 @@ public class CategoryServiceImpl implements CategoryService{
 	public List<Category> getAllParentCategory() {
 		return categoryDao.getAllParentCategory();
 	}
+
+	@Override
+	public void addCategory(Category category) {
+		// TODO Auto-generated method stub
+		categoryDao.addCategory(category);
+	}
+
+	@Override
+	public void updateCategory(Category category) {
+		// TODO Auto-generated method stub
+		categoryDao.updateCategory(category);
+	}
 }

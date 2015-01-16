@@ -49,4 +49,14 @@ public interface CategoryDao {
 	 * @return
 	 */
 	public List<Category> getAllParentCategory();
+	/**
+	 * 添加菜单
+	 * @param category
+	 */
+	public void addCategory(Category category);
+	/**
+	 * 修改商品类别
+	 * @param category
+	 */
+	public void updateCategory(Category category);
 }

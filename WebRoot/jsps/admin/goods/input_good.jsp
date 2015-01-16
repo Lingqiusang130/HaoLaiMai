@@ -103,7 +103,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	            <tr>
 	                <td width="15%">商品描述</td>
 	                <td width="500" colspan="3" height="">
-	                    <textarea name="description" id="description"style="width: 95%" rows="4" cols="5"></textarea>
+	                    <textarea name="description" id="description" style="width: 95%" rows="4" cols="5"></textarea>
 	                </td>
 	            </tr>
 	        </tbody>
