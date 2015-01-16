@@ -66,5 +66,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div>
 		<select id="s25"><option>直辖市</option></select>
 	</div>
+	<!-- 未做增加和修改时候重复判断报错 -->
 </body>
 </html>

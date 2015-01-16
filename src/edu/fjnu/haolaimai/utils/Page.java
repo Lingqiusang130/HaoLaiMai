@@ -21,7 +21,7 @@ public class Page {
 	public Page() {
 		super();
         pageNo=1;
-        pageSize=15;
+        pageSize=10;
 	}
 	
 	public Integer getPageNo() {

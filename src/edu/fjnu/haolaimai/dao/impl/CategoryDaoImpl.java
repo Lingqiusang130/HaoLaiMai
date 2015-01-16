@@ -10,9 +10,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import edu.fjnu.haolaimai.dao.CategoryDao;
 import edu.fjnu.haolaimai.domain.Category;
 import edu.fjnu.haolaimai.domain.Good;
+import edu.fjnu.haolaimai.service.CategoryQueryHelper;
+import edu.fjnu.haolaimai.service.GoodQueryHelper;
 import edu.fjnu.haolaimai.utils.DBUtils;
 
 
@@ -24,7 +28,7 @@ public class CategoryDaoImpl implements CategoryDao {
 	private static final String LOAD_CATEGORY_BYNO = "select * from t_category where state='1' and cate_id=?";
 	private static final String LOAD_ALL_PARENT = "select * from t_category where state='1' and pid is null";
 	private static final String FIND_BY_PARENT = "select * from t_category where state='1' and pid=?";
-	
+
 	@Override
 	public Category getCategoryById(int cateId) {
 		Connection conn=DBUtils.getInstance().getConn();
@@ -136,6 +140,143 @@ public class CategoryDaoImpl implements CategoryDao {
 			}	
 		
 		return children;
+	}
+
+	@Override
+	public int cntCategorys(CategoryQueryHelper helper) {
+		String sql=this.generateSQL(helper);
+		
+		//select count(*) goot_cnt from t_good where ..
+		
+		sql=sql.replace("*", "count(*) cate_cnt");
+		sql=sql.substring(0,sql.indexOf("order")).trim();
+		
+		System.out.println("cntCategorys:"+sql);
+		
+		Connection conn=DBUtils.getInstance().getConn();
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		int cateCnt=0;
+		
+		try {
+			
+		  pstmt=conn.prepareStatement(sql);
+		  rset=pstmt.executeQuery();
+		  
+		  if(rset.next()){
+			  cateCnt=rset.getInt("cate_cnt");
+		  }
+		  
+ 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally{
+		   DBUtils.getInstance().ReleaseRes(conn, pstmt, rset);
+		}				
+		return cateCnt;
+	}
+
+	@Override
+	public List<Category> loadTermPageCategory(CategoryQueryHelper helper,
+			int begin, int end) {
+		String sql=this.generateSQL(helper);
+		sql="select * from (select rownum rn, a.* from ("+sql+") a where rownum<=? ) where rn>=?";
+		
+		System.out.println("get term page categorys:"+sql+","+end+","+begin);
+				
+		Connection conn=DBUtils.getInstance().getConn();
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		List<Category> cateList=null;
+		
+		try {
+			
+		  pstmt=conn.prepareStatement(sql);
+		  pstmt.setInt(1, end);
+		  pstmt.setInt(2, begin);
+		  rset=pstmt.executeQuery();
+		  cateList=new ArrayList<Category>();
+		  
+		  while(rset.next()){
+			  Category category=new Category();
+			  category.setCateId(rset.getInt("cate_id"));
+			  category.setCateName(rset.getString("cate_name"));
+			  category.setDecription(rset.getString("description"));
+			  Integer pid = rset.getInt("pid");
+			  if(pid == 0){
+				  category.setParent(null);//父类没有子菜单	
+			  }else{
+				  category.setParent(this.getCategoryById(pid));
+			  }
+			  
+  			  cateList.add(category);	
+		  }
+		  
+ 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally{
+		   DBUtils.getInstance().ReleaseRes(conn, pstmt, rset);
+		}		
+		return cateList;
+	}
+	
+	/**
+	 * 根据查询条件，动态生成菜单查询SQL语句
+	 * @param helper
+	 * @return
+	 */
+	private String generateSQL(CategoryQueryHelper helper){
+		
+		String baseSQL="select * from t_category where state='1'";
+
+		if(helper.getCategoryIdB()!=null){			
+				baseSQL+=" and pid='"+helper.getCategoryIdB()+"'";
+		}				
+		if(StringUtils.isNotEmpty(helper.getKeyValue())){
+			baseSQL+=" and ( cate_name like '%"+helper.getKeyValue()+"%' or description like '%"+helper.getKeyValue()+"%')";
+		}
+		
+		baseSQL+=" order by cate_id desc";
+		
+		System.out.println("SQL BY HELPER:"+baseSQL);
+		
+		return baseSQL;		
+	}
+
+	@Override
+	public List<Category> getAllParentCategory() {
+		Connection conn=DBUtils.getInstance().getConn();
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		List<Category> parents=null;
+		
+		try{
+			
+		  pstmt=conn.prepareStatement(LOAD_ALL_PARENT);
+		  rset=pstmt.executeQuery();
+		  
+		  parents=new ArrayList<Category>();
+		  
+		  while(rset.next()){
+			  
+			  Category category = new Category();
+			  category.setCateId(rset.getInt("cate_id"));
+			  category.setCateName(rset.getString("cate_name"));
+			  category.setDecription(rset.getString("description"));
+			  category.setParent(null);//父类没有子菜单	
+			  
+			  parents.add(category);
+		  }
+		  
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally{
+			DBUtils.getInstance().ReleaseRes(conn, pstmt,rset);
+		}
+		
+		return parents;
 	}
 	
 }

@@ -48,7 +48,7 @@ public class GoodServlet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
+
 		GoodService goodService = new GoodServiceImpl();
 
 		//找到本机JAVA默认的临时存储空间，用来作为数据获取过程中的缓存区

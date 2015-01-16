@@ -69,7 +69,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			 	 i++;
 			</c:forEach>
 		}
-		function removeRoom(goodId,goodName){
+		function removeGood(goodId,goodName){
 	          if(confirm("您确认要删除["+goodName+"商品]的信息资料吗?")){         
 	             location.href='<c:url value="/GoodServlet?method=removeGood"/>&goodId='+goodId;
 	          }
@@ -153,7 +153,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <td>
                 	<span><input class="btn btn-inverse" id="find" type="button" onclick="javascript:updateGood(${good.goodId});" value="修改" /></span>
                 	<span><input class="btn btn-inverse" id="find" type="button"  title="点击删除[${good.goodName}商品]信息资料"
-		                         onclick="removeRoom(${good.goodId},'${good.goodName}');" value="删除" /></span>
+		                         onclick="removeGood(${good.goodId},'${good.goodName}');" value="删除" /></span>
                 </td>
             </tr>
 		</c:forEach>
