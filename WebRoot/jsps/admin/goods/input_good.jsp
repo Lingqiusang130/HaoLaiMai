@@ -42,7 +42,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				}
 			 	 i++;
 			</c:forEach>
-		}  
+		}
+		function cancel(){
+	         location.href='<c:url value="/GoodServlet?method=loadPagedGoods"/>';
+	    }
 	</script>  
 </head>
 <body>
@@ -106,7 +109,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        </tbody>
 	    </table>
 	    <input class="btn btn-inverse" id="find" type="submit" value="保存" />
-	    <input class="btn btn-inverse" type="button" value="取消" />
+	    <input class="btn btn-inverse" type="button" onclick="cancel();" value="取消" />
     </form>
 </body>
 </html>

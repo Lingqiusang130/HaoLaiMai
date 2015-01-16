@@ -148,7 +148,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <td>${good.goodName}</td>
                 <td>${good.goodPrice}</td>
                 <td><img width="200" height="150" src="<c:url value='/GoodServlet'/>?method=getpic&goodId=${good.goodId}"/> </td>
-                <td>${good.category.cateId}</td>
+                <td>${good.category.cateName}</td>
                 <td>${good.description}</td>
                 <td>
                 	<span><input class="btn btn-inverse" id="find" type="button" onclick="javascript:updateGood(${good.goodId});" value="修改" /></span>

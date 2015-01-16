@@ -155,7 +155,6 @@ public class GoodServlet extends HttpServlet {
 			request.getRequestDispatcher("jsps/admin/goods/list_goods.jsp").forward(request, response);
 		}
 		else if("toAddGood".equals(method)){
-			System.out.println("toAddGood....");
 			CategoryService categoryService = new CategoryServiceImpl();
 			List<Category> parents = categoryService.loadAllCategory();
 			request.setAttribute("parents", parents);

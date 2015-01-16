@@ -35,6 +35,11 @@
     <servlet-name>GoodServlet</servlet-name>
     <servlet-class>edu.fjnu.haolaimai.controller.GoodServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>CategoryServlet</servlet-name>
+    <servlet-class>edu.fjnu.haolaimai.controller.CategoryServlet</servlet-class>
+  </servlet>
+
 
 
 
@@ -61,5 +66,9 @@
   <servlet-mapping>
     <servlet-name>GoodServlet</servlet-name>
     <url-pattern>/GoodServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>CategoryServlet</servlet-name>
+    <url-pattern>/CategoryServlet</url-pattern>
   </servlet-mapping>
 </web-app>
