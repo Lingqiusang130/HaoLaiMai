@@ -15,11 +15,14 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import edu.fjnu.haolaimai.dao.CategoryDao;
+import edu.fjnu.haolaimai.dao.GoodDao;
 import edu.fjnu.haolaimai.domain.Category;
 import edu.fjnu.haolaimai.domain.Good;
+import edu.fjnu.haolaimai.exception.ApplicationException;
 import edu.fjnu.haolaimai.exception.DataAccessException;
 import edu.fjnu.haolaimai.service.CategoryQueryHelper;
 import edu.fjnu.haolaimai.service.GoodQueryHelper;
+import edu.fjnu.haolaimai.service.impl.GoodServiceImpl;
 import edu.fjnu.haolaimai.utils.DBUtils;
 
 
@@ -33,6 +36,7 @@ public class CategoryDaoImpl implements CategoryDao {
 	private static final String FIND_BY_PARENT = "select * from t_category where state='1' and pid=?";
 	private static final String ADD_CATEGOTY = "insert into t_category values(seq_cate.nextval,?,?,?,?)";
 	private static final String UPDATE_CATEGORY = "update t_category set cate_name=?,description=?,pid=? where cate_id=?";
+	private static final String REMOVE_CATEGORY = "update t_category set state='0' where cate_id=?";
 	@Override
 	public Category getCategoryById(int cateId) {
 		Connection conn=DBUtils.getInstance().getConn();
@@ -324,18 +328,59 @@ public class CategoryDaoImpl implements CategoryDao {
 			pstmt=conn.prepareStatement(UPDATE_CATEGORY);
 			pstmt.setString(1, category.getCateName());
 			pstmt.setString(2, category.getDecription());
-			pstmt.setInt(3, category.getParent().getCateId());
+			if(category.getParent().getCateId()==0){
+				pstmt.setString(3, null);
+			}else{
+				pstmt.setInt(3, category.getParent().getCateId());
+			}
 			pstmt.setInt(4, category.getCateId());
-			
-			pstmt.executeUpdate();
+			System.out.println("update t_category set cate_name='"+category.getCateName()+"',description='"+category.getDecription()+"',pid='"+category.getParent().getCateId()+"' where cate_id='"+category.getCateId()+"'");
+			System.out.println(pstmt.executeUpdate());
 					
 		}catch(SQLException e)
 		{
-			e.printStackTrace();
-
+			if(e.getMessage().contains("HAOLAIMAI.T_CATEGORY_UK1")){
+				throw new DataAccessException("已经存在这["+category.getCateName()+"]的类别，请检查！");
+			}
+			
 		}finally{
 			DBUtils.getInstance().ReleaseRes(conn, pstmt, null);
 		}
+	}
+
+	@Override
+	public void deleteCategory(int cateId) {
+		
+		Connection conn=DBUtils.getInstance().getConn();
+		PreparedStatement pstmt=null;
+		
+		try {
+			//为完成级联删除提示
+			//删除前查询是否存在子菜单
+//			Category category = null;
+//			category = this.getCategoryById(cateId);
+//			if(category.getChildren().size() != 0){
+//				throw new DataAccessException("["+category.getCateName()+"]菜单下存在子菜单,请先删除其下子菜单后再删除");
+//			}
+//			//该菜单下是否存在商品
+//			List<Good> goodList = null;
+//			GoodDao goodDao = new GoodDaoImpl();
+//			GoodQueryHelper helper = new GoodQueryHelper();
+//			goodList = goodDao.loadTermGood(helper);
+//			if(goodList == null){
+//				throw new ApplicationException("["+category.getCateName()+"]菜单下存在商品,请先删除其下菜单下商品后再删除");
+//			}
+			pstmt=conn.prepareStatement(REMOVE_CATEGORY);
+			pstmt.setInt(1, cateId);
+			pstmt.executeUpdate();
+		  
+ 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();		
+			
+		} finally{
+		   DBUtils.getInstance().ReleaseRes(conn, pstmt, null);
+		}		
 	}
 	
 }

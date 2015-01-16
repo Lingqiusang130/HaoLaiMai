@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import cn.itcast.servlet.BaseServlet;
 import edu.fjnu.haolaimai.domain.Admin;
 import edu.fjnu.haolaimai.domain.Category;
+import edu.fjnu.haolaimai.exception.ApplicationException;
 import edu.fjnu.haolaimai.exception.DataAccessException;
 import edu.fjnu.haolaimai.service.CategoryQueryHelper;
 import edu.fjnu.haolaimai.service.CategoryService;
@@ -111,8 +112,13 @@ public class CategoryServlet extends BaseServlet {
 	 */
 	public String toUpdateCategory(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		return null;
+		int cateId=Integer.parseInt(request.getParameter("cateId"));
+		Category category = categoryService.getCategoryById(cateId);
+		request.setAttribute("category", category);
+		//获取所有商品大类别
+		List<Category> parents = categoryService.getAllParentCategory();
+		request.setAttribute("parents", parents);
+		return "f:/jsps/admin/categorys/update_category.jsp";
 	}
 	/**
 	 * 修改商品种类
@@ -124,6 +130,29 @@ public class CategoryServlet extends BaseServlet {
 	 */
 	public String updateCategory(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		return null;
+		Category category = new Category();
+		category.setCateId(Integer.parseInt(request.getParameter("cateId")));
+		category.setCateName(request.getParameter("cateName"));
+		category.setParent(new Category(Integer.parseInt(request.getParameter("categoryId"))));
+		category.setDecription(request.getParameter("description"));
+		try {
+			categoryService.updateCategory(category);
+		} catch (DataAccessException e) {
+			request.setAttribute("err", e.getMessage());
+			return "f:/jsps/admin/categorys/update_category.jsp";
+		}
+		
+		return "r:/CategoryServlet?method=loadAllCategory";
+	}
+	
+	public String deleteCategory(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		int cateId=Integer.parseInt(request.getParameter("cateId"));
+		try{
+			categoryService.deleteCategory(cateId);
+		}catch(DataAccessException e){
+			
+		}
+		return "r:/CategoryServlet?method=loadAllCategory";
 	}
 }

@@ -51,13 +51,16 @@ public class CategoryServiceImpl implements CategoryService{
 
 	@Override
 	public void addCategory(Category category) {
-		// TODO Auto-generated method stub
 		categoryDao.addCategory(category);
 	}
 
 	@Override
 	public void updateCategory(Category category) {
-		// TODO Auto-generated method stub
 		categoryDao.updateCategory(category);
+	}
+
+	@Override
+	public void deleteCategory(int cateId) {
+		categoryDao.deleteCategory(cateId);
 	}
 }

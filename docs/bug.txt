@@ -1,2 +1,3 @@
 显示所有类别页面，关键字回填为乱码，最后项目完成的时候加一个编码过滤器。---解决
 ORA-01461: can bind a LONG value only for insert into a LONG column  --11g用了10g的ojdbc包
+deleteCategory dao层未能实现级联删除提示。

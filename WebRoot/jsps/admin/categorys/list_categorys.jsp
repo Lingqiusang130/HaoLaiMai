@@ -18,11 +18,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script type="text/javascript">
     function removeCate(cateId,cateName){
         if(confirm("您确认要删除["+cateName+"商品]的信息资料吗?")){         
-           location.href='<c:url value="/CategoryServlet?method=removeCategory"/>&cateId='+cateId;
+           location.href='<c:url value="/CategoryServlet?method=deleteCategory"/>&cateId='+cateId;
         }
  	 }
     function updateCate(cateId){
-        location.href='<c:url value="/CategoryServlet?method=toPreUpdate"/>&goodId='+goodId;
+        location.href='<c:url value="/CategoryServlet?method=toUpdateCategory"/>&cateId='+cateId;
    	}
 	function $(elementId)
 	{
@@ -57,6 +57,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div>
     <form action="<c:url value='/CategoryServlet'/>" method="post">
     <input type="hidden" name="method" value="loadAllCategory" />
+    <input type="hidden" id="err" value="${err}"/>
+	<c:if test="${not empty err}">
+		<script type="text/javascript">
+   			alert(document.getElementById("err").value);
+   		</script>
+	</c:if>  
      <span>商品大类：</span>
 		<select name="categoryIdB" id="categoryIdB" class="select">
 			<option value="0">==商品大类别==</option>

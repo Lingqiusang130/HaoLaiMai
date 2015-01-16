@@ -193,8 +193,6 @@ public class GoodServlet extends HttpServlet {
 			System.out.println("toUpdate");
 			int goodId=Integer.parseInt(request.getParameter("goodId"));
 			Good good = goodService.getGoodById(goodId);
-			System.out.println(good.getCategory().getCateId());
-			System.out.println(good.getCategory().getParent().getCateId());
 			request.setAttribute("good", good);
 			CategoryService categoryService = new CategoryServiceImpl();
 			List<Category> parents = categoryService.loadAllCategory();

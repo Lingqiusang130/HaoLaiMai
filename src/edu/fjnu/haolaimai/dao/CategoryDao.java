@@ -59,4 +59,10 @@ public interface CategoryDao {
 	 * @param category
 	 */
 	public void updateCategory(Category category);
+	/**
+	 * 删除商品类型
+	 * @param cateId
+	 */
+	public void deleteCategory(int cateId);
+	
 }
