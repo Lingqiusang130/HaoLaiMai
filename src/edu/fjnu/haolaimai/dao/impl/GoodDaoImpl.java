@@ -33,6 +33,8 @@ public class GoodDaoImpl implements GoodDao {
 	private static final String LOAD_ALL_GOOD="select * from t_good where stockstatus='1' order by good_id desc";
 	private static final String SQL_GETPIC="select good_image from t_good where stockstatus='1' and good_id=?";
 	private static final String DEL_GOOD_BYID="update t_good set stockstatus='0' where good_id=?";
+	private static final String GET_GOOD_BYID="select * from t_good where stockstatus='1' and good_id=?";
+	private static final String UPDATE_GOOD = "update t_good set good_name=?,good_price=?,description=?,cate_id=?,stockstatus=? where good_id=?";
 	
 	@Override
 	public void addGood(Good good) {
@@ -326,6 +328,95 @@ public class GoodDaoImpl implements GoodDao {
 		   DBUtils.getInstance().ReleaseRes(conn, pstmt, rset);
 		}		
 		return goodList;
+	}
+	
+
+	@Override
+	public Good getGoodById(int goodId) {
+		Connection conn=DBUtils.getInstance().getConn();
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		Good good=null;
+		
+		try{
+			
+		  pstmt=conn.prepareStatement(GET_GOOD_BYID);
+		  pstmt.setInt(1, goodId);
+		  rset=pstmt.executeQuery();
+		  
+		  good=new Good();
+		  
+		  if(rset.next()){
+	
+			  good.setGoodId(rset.getInt("good_id"));
+			  good.setGoodName(rset.getString("good_name"));
+			  good.setGoodPrice(rset.getDouble("good_price"));
+			  good.setDescription(rset.getString("description"));
+			  CategoryDao categoryDao = new CategoryDaoImpl();
+			  //通过catId查询菜单
+			  Category category = categoryDao.getCategoryById(rset.getInt("cate_id"));
+			  good.setCategory(category);
+			  good.setStockStatus(rset.getInt("stockstatus"));
+		  	  
+		  }
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally{
+			DBUtils.getInstance().ReleaseRes(conn, pstmt,rset);
+		}
+		
+		return good;
+	}
+
+	@Override
+	public void updetaGood(Good good) {
+		Connection conn=DBUtils.getInstance().getConn();
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+	
+		try {
+			conn.setAutoCommit(false);//设置数据库为不自动提交，必须的一步	
+			
+			pstmt=conn.prepareStatement(UPDATE_GOOD);
+			pstmt.setString(1, good.getGoodName().toString());
+			pstmt.setDouble(2, good.getGoodPrice());
+			pstmt.setString(3, good.getDescription());
+			pstmt.setInt(4,good.getCategory().getCateId());
+			pstmt.setInt(5, good.getStockStatus());
+			pstmt.setInt(6,good.getGoodId());
+			pstmt.executeUpdate();
+			
+			   //以行的方式锁定   
+			   pstmt=conn.prepareStatement("select good_image from t_good where good_id='"+good.getGoodId()+"'for update");
+			   rs=pstmt.executeQuery();  
+			   
+			   if (rs.next()) {   
+				   //得到流   
+				   oracle.sql.BLOB blob = (oracle.sql.BLOB) rs.getBlob("good_image");   
+				   //从得到的低级流构造一个高级流   
+				   PrintStream ps = new PrintStream(blob.getBinaryOutputStream());   
+				   ps.write(good.getGoodImage());
+				   //清空流的缓存   
+				   ps.flush();   
+				   //关闭流，注意一定要关   
+				   ps.close();   
+				}
+			   
+			   conn.commit();			
+			
+		}catch(SQLException e)
+		{
+			e.printStackTrace();
+			throw new ApplicationException("操作出错！");
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			DBUtils.getInstance().ReleaseRes(conn, pstmt, rs);
+		}		
 	}
 	
 }

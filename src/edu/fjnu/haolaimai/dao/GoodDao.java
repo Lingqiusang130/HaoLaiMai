@@ -51,4 +51,15 @@ public interface GoodDao {
 	 * @return
 	 */
 	public List<Good> loadTermPageGood(GoodQueryHelper helper,int begin,int end);
+	/**
+	 * 通过商品编号获得商品
+	 * @param goodId
+	 * @return
+	 */
+	public Good getGoodById(int goodId);
+	/**
+	 * 更新商品
+	 * @param good
+	 */
+	public void updetaGood(Good good);
 }

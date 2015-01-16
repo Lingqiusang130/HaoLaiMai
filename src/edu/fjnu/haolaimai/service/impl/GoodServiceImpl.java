@@ -61,4 +61,13 @@ public class GoodServiceImpl implements GoodService{
 		
 		return page;
 	}
+	@Override
+	public Good getGoodById(int goodId) {
+		return goodDao.getGoodById(goodId);
+	}
+
+	@Override
+	public void updetaGood(Good good) {
+		goodDao.updetaGood(good);
+	}
 }

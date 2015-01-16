@@ -74,6 +74,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	             location.href='<c:url value="/GoodServlet?method=removeGood"/>&goodId='+goodId;
 	          }
 	    }
+		function updateGood(goodId){
+	         location.href='<c:url value="/GoodServlet?method=toPreUpdate"/>&goodId='+goodId;
+	    }
 		function doQuery(pageno){
 			if (pageno<1 || pageno>${page.totalPageNum}) {
 					alert("页号超出范围，有效范围：[1-${page.totalPageNum}]!");
@@ -148,7 +151,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <td>${good.category.cateId}</td>
                 <td>${good.description}</td>
                 <td>
-                	<span><input class="btn btn-inverse" id="find" type="button" onclick="" value="修改" /></span>
+                	<span><input class="btn btn-inverse" id="find" type="button" onclick="javascript:updateGood(${good.goodId});" value="修改" /></span>
                 	<span><input class="btn btn-inverse" id="find" type="button"  title="点击删除[${good.goodName}商品]信息资料"
 		                         onclick="removeRoom(${good.goodId},'${good.goodName}');" value="删除" /></span>
                 </td>

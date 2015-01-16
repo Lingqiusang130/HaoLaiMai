@@ -47,4 +47,15 @@ public interface GoodService {
 	 * @return
 	 */
 	public Page loadPagedGooms(GoodQueryHelper helper, Page page);
+	/**
+	 * 通过商品编号获得商品
+	 * @param goodId
+	 * @return
+	 */
+	public Good getGoodById(int goodId);
+	/**
+	 * 更新商品
+	 * @param good
+	 */
+	public void updetaGood(Good good);
 }

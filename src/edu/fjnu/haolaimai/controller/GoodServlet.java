@@ -117,7 +117,7 @@ public class GoodServlet extends HttpServlet {
 			}catch(ApplicationException e){
 				request.setAttribute("msg", e.getMessage());
 			}
-			response.sendRedirect("GoodServlet?method=loadGoods");
+			response.sendRedirect("GoodServlet?method=loadPagedGoods");
 
 		}
 		else if("loadPagedGoods".equals(method)){
@@ -188,7 +188,56 @@ public class GoodServlet extends HttpServlet {
 		else if("removeGood".equals(method)){
 			int goodId=Integer.parseInt(request.getParameter("goodId"));
 			goodService.removeGood(goodId);
-			response.sendRedirect("GoodServlet?method=loadGoods");
+			response.sendRedirect("GoodServlet?method=loadPagedGoods");
+		}
+		else if("toPreUpdate".equals(method)){
+			System.out.println("toUpdate");
+			int goodId=Integer.parseInt(request.getParameter("goodId"));
+			Good good = goodService.getGoodById(goodId);
+			System.out.println(good.getCategory().getCateId());
+			System.out.println(good.getCategory().getParent().getCateId());
+			request.setAttribute("good", good);
+			CategoryService categoryService = new CategoryServiceImpl();
+			List<Category> parents = categoryService.loadAllCategory();
+			request.setAttribute("parents", parents);
+			request.getRequestDispatcher("jsps/admin/goods/update_good.jsp").forward(request, response);
+		}
+		else if("updateGood".equals(method)){
+			
+			Good good = new Good();
+			for (FileItem item : fileItems) {
+				if (item.isFormField()
+						&& item.getFieldName().equals("goodId"))
+					good.setGoodId(Integer.parseInt(item.getString("utf-8")));
+				else if (item.isFormField()
+						&& item.getFieldName().equals("goodName"))
+					good.setGoodName(item.getString("utf-8"));
+				else if (item.isFormField()
+						&& item.getFieldName().equals("goodPrice"))
+					good.setGoodPrice(Double.parseDouble(item
+							.getString("utf-8")));
+				else if (item.isFormField()&& item.getFieldName().equals("categoryIdS")){
+					Category category = new Category();
+					int ID = Integer.parseInt(item.getString("utf-8"));
+					category.setCateId(ID);
+					good.setCategory(category);}
+				else if (item.isFormField()
+						&& item.getFieldName().equals("description"))
+					good.setDescription(item.getString("utf-8"));
+				else if (!item.isFormField()
+						&& item.getFieldName().equals("goodImage")) {
+					byte[] goodImage = new byte[(int) item.getSize()];
+					item.getInputStream().read(goodImage, 0,
+							(int) item.getSize());
+					good.setGoodImage(goodImage);
+				}
+			}
+			try{
+				goodService.updetaGood(good);
+			}catch(ApplicationException e){
+				request.setAttribute("msg", e.getMessage());
+			}
+			response.sendRedirect("GoodServlet?method=loadPagedGoods");
 		}
 	}
 
