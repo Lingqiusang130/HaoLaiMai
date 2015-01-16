@@ -222,7 +222,7 @@ public class GoodDaoImpl implements GoodDao {
 			}
 		}				
 		if(StringUtils.isNotEmpty(helper.getKeyValue())){
-			baseSQL+=" and good_name like '%"+helper.getKeyValue()+"%'";
+			baseSQL+=" and ( good_name like '%"+helper.getKeyValue()+"%' or description like '%"+helper.getKeyValue()+"%' or good_id like '%"+helper.getKeyValue()+"%')";
 		}
 		
 		baseSQL+=" order by good_id desc";
