@@ -73,7 +73,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	          if(confirm("您确认要删除["+goodName+"商品]的信息资料吗?")){         
 	             location.href='<c:url value="/GoodServlet?method=removeGood"/>&goodId='+goodId;
 	          }
-	       }
+	    }
+		function doQuery(pageno){
+			if (pageno<1 || pageno>${page.totalPageNum}) {
+					alert("页号超出范围，有效范围：[1-${page.totalPageNum}]!");
+					$('pageNo').select();
+					return;
+				}
+			var f = document.forms[0];
+			f.action = f.action + "?method=loadPagedGoods&pageno=" + pageno;
+			f.submit();
+		}
+		function $(elementId)
+		{
+			return document.getElementById(elementId);
+		}
+		//只输入数字
+		function onlynumber()
+		{
+			if(event.keyCode==13)
+				return true;
+			if(event.keyCode<48||event.keyCode>57)
+			{
+				event.keyCode=0;
+				event.returnValue=false;
+			}
+			event.returnValue=true;
+		}
 	</script>  
 </head>
 
@@ -81,7 +107,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div class="alert alert-info">当前位置<b class="tip"></b>商品管理<b class="tip"></b>所有商品</div>
     <div>
     <form action="<c:url value='/GoodServlet'/>" method="post">
-    <input type="hidden" name="method" value="loadGoods" />
+    <input type="hidden" name="method" value="loadPagedGoods" />
      <span>商品大类：</span>
 		<select name="categoryIdB" id="categoryIdB" class="select" onchange="getKind()" >
 			<option value="0">==商品大类别==</option>
@@ -99,7 +125,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      </form>
     </div>
     <br>
-    <c:if test="${ not empty goodList}">
+    <c:if test="${ not empty page.pageContent}">
     <table class="table table-striped table-bordered table-condensed" id="list">
         <thead>
             <tr class="tr_detail">
@@ -113,7 +139,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </tr>
         </thead>
         <tbody>
-        <c:forEach items="${goodList}" var="good">
+        <c:forEach items="${page.pageContent}" var="good">
          	<tr>
                 <td><a>${good.goodId}</a></td>
                 <td>${good.goodName}</td>
@@ -130,12 +156,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</c:forEach>
         </tbody>
     </table>
-    <span style="margin-left: 420px">当前第5页/共55页&nbsp;&nbsp;共650条记录&nbsp;&nbsp;<a class="badge badge-inverse">首页</a>&nbsp;<a class="badge badge-inverse">下一页</a>&nbsp;
-    	<a class="badge badge-inverse">1</a>&nbsp;<a class="badge badge-inverse">2</a>&nbsp;<a class="badge badge-inverse">3</a>&nbsp;<a class="badge badge-inverse">4</a>&nbsp;
-    	<a class="badge badge-warning">5</a>&nbsp;<a class="badge badge-inverse">...</a>&nbsp;<a class="badge badge-inverse">55</a>&nbsp;<a class="badge badge-inverse">上一页</a>&nbsp;<a class="badge badge-inverse">尾页</a>
-    </span>
+    <div class="page_div">
+    	当前第${page.pageNo}页/共${page.totalPageNum}页&nbsp;&nbsp;共${page.totalRecNum}条记录&nbsp;&nbsp;
+    	<c:if test="${page.pageNo>1}">
+    		<a class="badge badge-inverse" href="javascript:doQuery(1)">首页</a>&nbsp;
+    	</c:if>
+    	<c:if test="${page.prePage}">
+    	<a class="badge badge-inverse" href="javascript:doQuery(${page.pageNo-1})">上一页</a>&nbsp;
+    	</c:if>
+    	<c:if test="${page.nextPage}">
+    	<a class="badge badge-inverse" href="javascript:doQuery(${page.pageNo+1})">下一页</a>&nbsp;
+    	</c:if>
+    	<c:if test="${page.pageNo!=page.totalPageNum}">
+    	<a class="badge badge-inverse" href="javascript:doQuery(${page.totalPageNum})">末页</a>
+    	</c:if>
+    	到&nbsp;<input type="text" id="pageNo" size=4 class="pageNo_input" onkeypress="onlynumber();"/>&nbsp;页
+    	<a class="badge badge-inverse" href="javascript:doQuery($('pageNo').value);">跳 转</a>
+	</div>
    </c:if>
-   <c:if test="${empty goodList}">
+   <c:if test="${empty page.pageContent}">
    	<script type="text/javascript">
    		alert("没有任何符合条件的商品信息被找到");
    	</script>

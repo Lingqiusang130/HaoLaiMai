@@ -252,15 +252,80 @@ public class GoodDaoImpl implements GoodDao {
 
 	@Override
 	public int cntGoods(GoodQueryHelper helper) {
-		// TODO Auto-generated method stub
-		return 0;
+		String sql=this.generateSQL(helper);
+		
+		//select count(*) goot_cnt from t_good where ..
+		
+		sql=sql.replace("*", "count(*) good_cnt");
+		sql=sql.substring(0,sql.indexOf("order")).trim();
+		
+		System.out.println("cntGoods:"+sql);
+		
+		Connection conn=DBUtils.getInstance().getConn();
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		int goodCnt=0;
+		
+		try {
+			
+		  pstmt=conn.prepareStatement(sql);
+		  rset=pstmt.executeQuery();
+		  
+		  if(rset.next()){
+			  goodCnt=rset.getInt("good_cnt");
+		  }
+		  
+ 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally{
+		   DBUtils.getInstance().ReleaseRes(conn, pstmt, rset);
+		}				
+		return goodCnt;
 	}
 
 	@Override
-	public List<Good> loadTermPageGood(GoodQueryHelper helper, int begin,
-			int end) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Good> loadTermPageGood(GoodQueryHelper helper, int begin,int end) {
+		String sql=this.generateSQL(helper);
+		sql="select * from (select rownum rn, a.* from ("+sql+") a where rownum<=? ) where rn>=?";
+		
+		System.out.println("get term page goods:"+sql+","+end+","+begin);
+				
+		Connection conn=DBUtils.getInstance().getConn();
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		List<Good> goodList=null;
+		
+		try {
+			
+		  pstmt=conn.prepareStatement(sql);
+		  pstmt.setInt(1, end);
+		  pstmt.setInt(2, begin);
+		  rset=pstmt.executeQuery();
+		  goodList=new ArrayList<Good>();
+		  
+		  while(rset.next()){
+			  Good good=new Good();
+			  good.setGoodId(rset.getInt("good_id"));
+			  good.setGoodName(rset.getString("good_name"));
+			  good.setGoodPrice(rset.getDouble("good_price"));
+			  good.setDescription(rset.getString("description"));
+			  CategoryDao categoryDao = new CategoryDaoImpl();
+			  //通过catId查询菜单
+			  Category category = categoryDao.getCategoryById(rset.getInt("cate_id"));
+			  good.setCategory(category);
+			  good.setStockStatus(rset.getInt("stockstatus"));
+		  
+			  goodList.add(good);	
+		  }
+		  
+ 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally{
+		   DBUtils.getInstance().ReleaseRes(conn, pstmt, rset);
+		}		
+		return goodList;
 	}
 	
 }

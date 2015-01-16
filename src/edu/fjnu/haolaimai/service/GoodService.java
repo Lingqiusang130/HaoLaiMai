@@ -6,6 +6,7 @@ package edu.fjnu.haolaimai.service;
 import java.util.List;
 
 import edu.fjnu.haolaimai.domain.Good;
+import edu.fjnu.haolaimai.utils.Page;
 
 /**
  * @author lingqiusang
@@ -39,4 +40,11 @@ public interface GoodService {
 	 * @param goodId
 	 */
 	public void removeGood(int goodId);
+	/**
+	 * 按查询条件分页显示商品信息
+	 * @param helper
+	 * @param page
+	 * @return
+	 */
+	public Page loadPagedGooms(GoodQueryHelper helper, Page page);
 }

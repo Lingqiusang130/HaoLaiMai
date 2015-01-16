@@ -44,7 +44,7 @@ public interface GoodDao {
 	 */
 	public int cntGoods(GoodQueryHelper helper);
 	/**
-	 * 取出在此商品条件
+	 * 取出在此查询条件下的商品
 	 * @param helper
 	 * @param begin
 	 * @param end

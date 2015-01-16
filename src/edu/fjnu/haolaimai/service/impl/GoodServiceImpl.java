@@ -11,7 +11,7 @@ import edu.fjnu.haolaimai.domain.Good;
 import edu.fjnu.haolaimai.exception.ApplicationException;
 import edu.fjnu.haolaimai.service.GoodQueryHelper;
 import edu.fjnu.haolaimai.service.GoodService;
-
+import edu.fjnu.haolaimai.utils.Page;
 /**
  * @author lingqiusang
  *
@@ -51,7 +51,14 @@ public class GoodServiceImpl implements GoodService{
 
 	@Override
 	public void removeGood(int goodId) {
-		// TODO Auto-generated method stub
 		goodDao.removeGood(goodId);
+	}
+
+	@Override
+	public Page loadPagedGooms(GoodQueryHelper helper, Page page) {
+		page.setTotalRecNum(goodDao.cntGoods(helper));
+		page.setPageContent(goodDao.loadTermPageGood(helper, page.getStartIndex(), page.getEndIndex()));
+		
+		return page;
 	}
 }

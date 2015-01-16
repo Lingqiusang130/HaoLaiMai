@@ -25,6 +25,7 @@ import edu.fjnu.haolaimai.service.GoodQueryHelper;
 import edu.fjnu.haolaimai.service.GoodService;
 import edu.fjnu.haolaimai.service.impl.CategoryServiceImpl;
 import edu.fjnu.haolaimai.service.impl.GoodServiceImpl;
+import edu.fjnu.haolaimai.utils.Page;
 
 public class GoodServlet extends HttpServlet {
 
@@ -119,7 +120,7 @@ public class GoodServlet extends HttpServlet {
 			response.sendRedirect("GoodServlet?method=loadGoods");
 
 		}
-		else if("loadGoods".equals(method)){
+		else if("loadPagedGoods".equals(method)){
 			
 			//获取组合查询条件
 			GoodQueryHelper helper = new GoodQueryHelper();
@@ -139,9 +140,12 @@ public class GoodServlet extends HttpServlet {
 				String keyValue = request.getParameter("keyValue");
 				helper.setKeyValue(keyValue);
 			}
+			Page page=new Page();
+			if(StringUtils.isNotEmpty(request.getParameter("pageno")))
+				 page.setPageNo(Integer.parseInt(request.getParameter("pageno")));
 			
 			//获取所有商品
-			request.setAttribute("goodList", goodService.loadTermGood(helper));
+			request.setAttribute("page", goodService.loadPagedGooms(helper, page));
 			
 			//获取所有商品类别
 			CategoryService categoryService = new CategoryServiceImpl();

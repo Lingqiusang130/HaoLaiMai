@@ -298,3 +298,11 @@ table thead {
     color: red;
     font-weight: 900;
 }
+.page_div{
+	float:right;
+}
+.pageNo_input{
+	text-align: right;
+	width: 25px;
+	margin-top: -8px;
+}
