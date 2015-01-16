@@ -37,4 +37,18 @@ public interface GoodDao {
 	 * @param goodId
 	 */
 	public void removeGood(int goodId);
+	/**
+	 * 取出在此查询条件下的商品数量
+	 * @param helper
+	 * @return
+	 */
+	public int cntGoods(GoodQueryHelper helper);
+	/**
+	 * 取出在此商品条件
+	 * @param helper
+	 * @param begin
+	 * @param end
+	 * @return
+	 */
+	public List<Good> loadTermPageGood(GoodQueryHelper helper,int begin,int end);
 }

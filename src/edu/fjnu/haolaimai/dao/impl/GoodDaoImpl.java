@@ -129,8 +129,7 @@ public class GoodDaoImpl implements GoodDao {
 		Connection conn=DBUtils.getInstance().getConn();
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
-		
-		conn=DBUtils.getInstance().getConn();
+
 		byte[] goodPic=null;
 		
 		try{
@@ -249,5 +248,19 @@ public class GoodDaoImpl implements GoodDao {
 		} finally{
 		   DBUtils.getInstance().ReleaseRes(conn, pstmt, null);
 		}		
-	}	
+	}
+
+	@Override
+	public int cntGoods(GoodQueryHelper helper) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<Good> loadTermPageGood(GoodQueryHelper helper, int begin,
+			int end) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }
