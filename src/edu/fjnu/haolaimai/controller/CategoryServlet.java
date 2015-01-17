@@ -139,7 +139,7 @@ public class CategoryServlet extends BaseServlet {
 			categoryService.updateCategory(category);
 		} catch (DataAccessException e) {
 			request.setAttribute("err", e.getMessage());
-			return "f:/jsps/admin/categorys/update_category.jsp";
+			return "f:/CategoryServlet?method=toUpdateCategory";
 		}
 		
 		return "r:/CategoryServlet?method=loadAllCategory";
@@ -150,8 +150,20 @@ public class CategoryServlet extends BaseServlet {
 		int cateId=Integer.parseInt(request.getParameter("cateId"));
 		try{
 			categoryService.deleteCategory(cateId);
-		}catch(DataAccessException e){
+		}catch(ApplicationException e){
+			request.setAttribute("err", e.getMessage());
+			//获取组合查询条件
+			CategoryQueryHelper helper = new CategoryQueryHelper();
+			Page page=new Page();
+			//获取条件下商品类别
+			request.setAttribute("pageCategory", categoryService.loadTermPageCategory(helper, page));
 			
+			//获取所有商品大类别
+			CategoryService categoryService = new CategoryServiceImpl();
+			List<Category> parents = categoryService.getAllParentCategory();
+			request.setAttribute("parents", parents);
+			
+			return "f:/jsps/admin/categorys/list_categorys.jsp";
 		}
 		return "r:/CategoryServlet?method=loadAllCategory";
 	}

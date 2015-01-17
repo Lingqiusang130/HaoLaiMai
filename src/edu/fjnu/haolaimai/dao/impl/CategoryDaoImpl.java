@@ -357,19 +357,24 @@ public class CategoryDaoImpl implements CategoryDao {
 		try {
 			//为完成级联删除提示
 			//删除前查询是否存在子菜单
-//			Category category = null;
-//			category = this.getCategoryById(cateId);
-//			if(category.getChildren().size() != 0){
-//				throw new DataAccessException("["+category.getCateName()+"]菜单下存在子菜单,请先删除其下子菜单后再删除");
-//			}
-//			//该菜单下是否存在商品
-//			List<Good> goodList = null;
-//			GoodDao goodDao = new GoodDaoImpl();
-//			GoodQueryHelper helper = new GoodQueryHelper();
-//			goodList = goodDao.loadTermGood(helper);
-//			if(goodList == null){
-//				throw new ApplicationException("["+category.getCateName()+"]菜单下存在商品,请先删除其下菜单下商品后再删除");
-//			}
+			boolean flag = true;
+			Category category = null;
+			category = this.getCategoryById(cateId);
+			CategoryQueryHelper categoryQueryHelper = new CategoryQueryHelper();
+			categoryQueryHelper.setCategoryIdB(cateId);
+			int cntCate = this.cntCategorys(categoryQueryHelper);
+			if(cntCate != 0){
+				throw new DataAccessException("["+category.getCateName()+"]菜单下存在子菜单,请先删除其下子菜单后再删除");
+			}			
+			GoodDao goodDao = new GoodDaoImpl();
+			GoodQueryHelper helper = new GoodQueryHelper();
+			helper.setCategoryIdS(cateId);
+			helper.setCategoryIdB(-1);
+			int cntGood = goodDao.cntGoods(helper);
+			if(cntGood != 0){
+				throw new ApplicationException("["+category.getCateName()+"]菜单下存在商品,请先删除其下菜单下商品后再删除");
+				//throw new ApplicationException("菜单下存在商品,请先删除其下菜单下商品后再删除");
+			}
 			pstmt=conn.prepareStatement(REMOVE_CATEGORY);
 			pstmt.setInt(1, cateId);
 			pstmt.executeUpdate();
